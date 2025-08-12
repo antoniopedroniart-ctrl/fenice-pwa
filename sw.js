@@ -1,14 +1,22 @@
-const CACHE = 'fenice-v3';
+const CACHE = 'fenice-v4';
 const ASSETS = [
-  './',
-  './index.html',
-  './manifest.webmanifest',
-  './icon-192.png',
-  './icon-512.png',
-  './assets/anterior_muscles.png',
-  './assets/posterior_muscles.png',
-  './assets/bench_press.png',
-  './assets/back_squat.png'
+  "./",
+  "./index.html",
+  "./manifest.webmanifest",
+  "./icon-192.png",
+  "./icon-512.png",
+  "./assets/anterior_muscles.png",
+  "./assets/posterior_muscles.png",
+  "./assets/arms.png",
+  "./assets/shoulders.png",
+  "./assets/core.png",
+  "./assets/legs.png",
+  "./assets/bench_press.png",
+  "./assets/back_squat.png",
+  "./assets/pull_up.png",
+  "./assets/shoulder_press.png",
+  "./assets/plank.png",
+  "./assets/biceps_curl.png"
 ];
 
 self.addEventListener('install', e=>{
