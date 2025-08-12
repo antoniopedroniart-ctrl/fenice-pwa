@@ -1,0 +1,15 @@
+# Netlify config for Fenice PWA (static site)
+[build]
+  publish = "."
+  command = ""
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Force SPA-style routing to index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

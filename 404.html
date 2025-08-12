@@ -1,0 +1,14 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>404 • Fenice</title>
+<script>
+(function(){
+  var host = location.host;
+  var isUserSite = /^[^.]+\.github\.io$/i.test(host);
+  var parts = location.pathname.split('/').filter(Boolean);
+  // On project pages the repo name is the first path segment.
+  var base = isUserSite ? '/' : (parts.length ? '/' + parts[0] + '/' : '/');
+  location.replace(base);
+})();
+</script>
+<p>Redirecting…</p>

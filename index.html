@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>Fenice • Fitness & Study</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0f1115">
+<style>
+:root{
+  --bg:#0f1115; --panel:#151a23; --ink:#e8eef7; --muted:#a9b7ce;
+  --accent:#ff6a3d; --ok:#5ee1a6; --warn:#ffd166;
+  --upper:#5eb2ff; --lower:#ff6f6f; --core:#ffd166;
+  --rico:#68d391; --def:#f6ad55; --massa:#c084fc;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto}
+a{color:#9ad1ff;text-decoration:none}
+.app{min-height:100dvh;display:flex;flex-direction:column}
+.header{position:sticky;top:0;background:linear-gradient(180deg,#0f1115,rgba(15,17,21,.6));backdrop-filter:blur(8px);z-index:10;border-bottom:1px solid #212836}
+.header .row{display:flex;align-items:center;gap:10px;padding:12px}
+h1{font-size:18px;margin:0}
+.badge{font-size:11px;padding:4px 8px;border-radius:999px;background:#111927;border:1px solid #253047;color:#cfe3ff}
+.search{flex:1;display:flex;gap:8px}
+.search input{flex:1;background:#0f131b;border:1px solid #253047;border-radius:10px;color:var(--ink);padding:10px}
+.content{flex:1;padding:14px 14px 84px 14px;max-width:900px;margin:0 auto}
+.card{background:linear-gradient(180deg,#141a24,#111722);border:1px solid #222a38;border-radius:14px;padding:14px;margin:10px 0}
+.card h2{font-size:18px;margin:0 0 8px 0;border-left:6px solid var(--accent);padding-left:10px}
+.card h3{font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:8px 0}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.tag{font-size:11px;padding:4px 8px;border-radius:999px;border:1px solid #2a354a;background:#0f141e}
+.t-upper{color:#cfe7ff;border-color:rgba(94,178,255,.4)}
+.t-lower{color:#ffd1d1;border-color:rgba(255,111,111,.4)}
+.t-core{color:#ffe6a8;border-color:rgba(255,209,102,.4)}
+.t-rico{color:#c6f6d5;border-color:rgba(104,211,145,.4)}
+.t-def{color:#fed7aa;border-color:rgba(246,173,85,.4)}
+.t-massa{color:#e9d5ff;border-color:rgba(192,132,252,.4)}
+.callout{border-left:4px solid var(--accent);background:#1a2233;padding:12px;border-radius:10px}
+.grid{display:grid;gap:10px}
+.grid2{grid-template-columns:1fr 1fr}
+table{width:100%;border-collapse:separate;border-spacing:0 6px}
+th,td{padding:10px 12px;background:#0f141e;border:1px solid #243047}
+th{background:#172036;color:#cde3ff;text-align:left}
+ul{margin:8px 0 8px 20px;padding:0}
+.small{font-size:12px;color:#a9b7ce}
+.quote{font-style:italic;border-left:4px solid #f7b267;padding-left:10px;color:#ffd6c4}
+.imgbox{background:#0d111a;border:1px dashed #2c3446;border-radius:10px;padding:10px;text-align:center}
+.imgbox img{max-width:100%;border-radius:8px}
+.accordion summary{cursor:pointer;list-style:none}
+.accordion summary::-webkit-details-marker{display:none}
+.accordion summary{padding:10px;background:#121827;border:1px solid #243047;border-radius:10px}
+.accordion[open] summary{border-bottom-left-radius:0;border-bottom-right-radius:0}
+.accordion .acc-body{border:1px solid #243047;border-top:0;border-bottom-left-radius:10px;border-bottom-right-radius:10px;padding:10px}
+.tabbar{position:fixed;left:0;right:0;bottom:0;background:rgba(15,17,21,.9);backdrop-filter:blur(8px);border-top:1px solid #212836;z-index:20}
+.tabbar .tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:0}
+.tab{padding:10px 6px;text-align:center;color:#c6d3ea;font-size:11px}
+.tab.active{color:#fff}
+.btn{display:inline-block;padding:10px 12px;border-radius:10px;background:#182235;border:1px solid #2a3650;color:#cfe3ff;text-decoration:none}
+.mt8{margin-top:8px}
+.hide{display:none}
+.icon{font-size:12px;padding:2px 6px;border-radius:6px;background:#162033;border:1px solid #243047}
+
+/* TIMER */
+.timer{display:grid;gap:10px}
+.timer .display{font-size:36px;font-weight:700;letter-spacing:.04em;text-align:center;
+  padding:10px 12px;border-radius:12px;background:#121827;border:1px solid #243047}
+.timer .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.timer label{font-size:12px;color:#a9b7ce}
+.timer input[type="number"]{width:100%;background:#0f131b;border:1px solid #253047;border-radius:10px;color:#e8eef7;padding:10px}
+.timer .rowbtn{display:flex;gap:8px;flex-wrap:wrap}
+.timer .btn.sm{padding:8px 10px;font-size:12px;border-radius:8px}
+.timer .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#182235;border:1px solid #2a3650;font-size:12px;color:#cfe3ff}
+.timer .state{font-size:12px;color:#a9b7ce;text-align:center}
+
+/* SESSIONE ALLENAMENTO INTERATTIVA */
+.session{display:grid;gap:12px}
+.stopwatch{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.stopwatch .time{font-size:28px;font-weight:800;padding:8px 12px;border-radius:10px;background:#121827;border:1px solid #243047;letter-spacing:.03em}
+.stopwatch .btn.sm{padding:8px 10px;font-size:12px;border-radius:8px}
+.selrow{display:grid;grid-template-columns:1fr 1fr auto;gap:8px}
+.progress{height:12px;background:#0f141e;border:1px solid #243047;border-radius:999px;overflow:hidden}
+.progress>span{display:block;height:100%;width:0;background:linear-gradient(90deg,#48bb78,#38b2ac);transition:width .25s}
+.exlist{display:grid;gap:8px}
+.ex{border:1px solid #243047;background:#0f141e;border-radius:10px;padding:10px}
+.ex h4{margin:0 0 6px 0;font-size:15px}
+.ex .meta{font-size:12px;color:#a9b7ce;margin-bottom:6px}
+.ex .ctrl{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ex .pill{padding:4px 8px;border-radius:999px;background:#182235;border:1px solid #2a3650;font-size:12px;color:#cfe3ff}
+.ex input[type="number"]{width:70px;background:#0f131b;border:1px solid #253047;border-radius:8px;color:#e8eef7;padding:6px 8px}
+.ex .btn.xs{padding:6px 8px;font-size:12px;border-radius:8px}
+.hist{display:grid;gap:8px}
+.hist .item{border:1px solid #243047;background:#111723;border-radius:10px;padding:10px}
+.bar-ok{background:linear-gradient(90deg,#48bb78,#38b2ac)}
+.bar-mid{background:linear-gradient(90deg,#f6ad55,#f687b3)}
+.bar-low{background:linear-gradient(90deg,#fc8181,#f56565)}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <div class="row">
+      <h1>Fenice • Fitness & Study</h1>
+      <span class="badge">PWA</span>
+      <div class="search">
+        <input id="search" type="search" placeholder="Cerca nel manuale…" />
+        <a class="btn" id="installBtn" title="Installa">Installa</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="content">
+    <!-- HOME -->
+    <section id="view-home" class="view">
+      <div class="card">
+        <p class="quote">"Ricordati chi eri, chi sei e chi vuoi diventare." — Fenice</p>
+        <div class="chips">
+          <span class="tag t-rico">Ricomposizione</span>
+          <span class="tag t-def">Definizione</span>
+          <span class="tag t-massa">Massa</span>
+          <span class="tag t-upper">Upper</span>
+          <span class="tag t-lower">Lower</span>
+          <span class="tag t-core">Addome</span>
+        </div>
+        <p class="small">Start: 11/08/2025 • Obiettivo: +10 kg massa, BF 10–12%.</p>
+      </div>
+
+      <details class="accordion card" open>
+        <summary><b>Indice rapido</b></summary>
+        <div class="acc-body">
+          <div class="grid grid2">
+            <a class="btn" href="#view-nut">Nutrizione</a>
+            <a class="btn" href="#view-wo">Allenamento</a>
+            <a class="btn" href="#view-plan">Programmazione</a>
+            <a class="btn" href="#view-tools">Strumenti</a>
+          </div>
+        </div>
+      </details>
+
+      <div class="card">
+        <h2>Illustrazioni anatomiche (medico)</h2>
+        <div class="grid grid2">
+          <div class="imgbox">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Anterior_muscles_diagram.svg" alt="Muscoli anteriori">
+            <div class="small">Vista anteriore – pettorale, deltoidi, addome, quadricipiti.</div>
+          </div>
+          <div class="imgbox">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Posterior_muscles_diagram.svg" alt="Muscoli posteriori">
+            <div class="small">Vista posteriore – dorsali, deltoidi post, tricipiti, femorali, polpacci.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Guida veloce esercizi (immagini + video)</h2>
+        <div class="grid grid2">
+          <div class="imgbox">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Bench-press-2.jpg" alt="Panca piana">
+            <div class="small">Panca piana • <a target="_blank" href="https://www.youtube.com/results?search_query=panca+piana+esecuzione+corretta">Video</a></div>
+          </div>
+          <div class="imgbox">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/0e/Back_squat.jpg" alt="Squat">
+            <div class="small">Squat • <a target="_blank" href="https://www.youtube.com/results?search_query=squat+bilanciere+esecuzione+corretta">Video</a></div>
+          </div>
+          <div class="imgbox">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Deadlift-2.jpg" alt="Stacco">
+            <div class="small">Stacco • <a target="_blank" href="https://www.youtube.com/results?search_query=stacco+da+terra+esecuzione+corretta">Video</a></div>
+          </div>
+          <div class="imgbox">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/1f/Seated-dumbbell-press-2.jpg" alt="Military/Shoulder press">
+            <div class="small">Shoulder Press • <a target="_blank" href="https://www.youtube.com/results?search_query=military+press+manubri+esecuzione+corretta">Video</a></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Legenda</h2>
+        <ul class="small">
+          <li><b>RPE</b>: Rating of Perceived Exertion (sforzo 1–10). 7 = ~3 reps in riserva; 9 = ~1 rep.</li>
+          <li><b>BF</b>: Body Fat, percentuale di grasso corporeo.</li>
+          <li><b>1RM</b>: One-Rep Max, carico stimato per 1 ripetizione.</li>
+          <li><b>EMOM</b>: Every Minute On the Minute.</li>
+          <li><b>Tabata</b>: 20s lavoro / 10s recupero × 8 round.</li>
+          <li><b>ROM</b>: Range of Motion, ampiezza del movimento.</li>
+          <li><b>MRGE</b>: Malattia da reflusso gastroesofageo: evita alimenti acidi (pomodoro, agrumi).</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Installazione PWA – risoluzione problemi</h2>
+        <ul class="small">
+          <li><b>Android/Chrome</b>: la PWA richiede che i file siano serviti via <b>HTTPS</b> o <b>http://localhost</b>. Aprire via <code>file://</code> non mostra il pulsante “Installa”. Soluzioni rapide: carica la cartella su GitHub Pages / Netlify oppure usa un piccolo server locale.</li>
+          <li><b>iOS/Safari</b>: usa “Condividi → Aggiungi a schermata Home”. Il manifest non è obbligatorio, ma il service worker funziona solo tramite HTTPS.</li>
+          <li>Se l’<b>Install</b> non appare: aggiorna la pagina; svuota cache/app; verifica che <code>manifest.webmanifest</code> e <code>sw.js</code> siano nella <b>stessa cartella</b> di <code>index.html</code>.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- NUTRIZIONE -->
+    <section id="view-nut" class="view hide">
+      <div class="card">
+        <h2>Nutrizione – 3 fasi</h2>
+        <p>MRGE: evitare pasti acidi (pomodoro, agrumi). Idratazione 35–40 ml/kg.</p>
+      </div>
+
+      <details class="accordion card" open>
+        <summary><b>Fase 1 – Ricomposizione (~2500 kcal)</b> <span class="tag t-rico">P 2.0 g/kg</span> <span class="tag">C 3.5–4.0</span> <span class="tag">F ~0.9</span></summary>
+        <div class="acc-body">
+          <div class="callout">Ridistribuire masse senza salire di peso; alza performance.</div>
+          <table>
+            <thead><tr><th>Pasto</th><th>Esempio</th></tr></thead>
+            <tbody>
+              <tr><td>Colazione</td><td>Albume 250 ml + 2 uova + pane integrale 60 g + burro arachidi 15 g</td></tr>
+              <tr><td>Spuntino</td><td>Yogurt greco 0% 200 g + avena 30 g + miele 10 g</td></tr>
+              <tr><td>Pranzo</td><td>Riso 150 g + pollo 150 g + olio EVO 10 g + verdure neutre</td></tr>
+              <tr><td>Cena</td><td>Pesce bianco 200 g + patate dolci 200 g + verdure</td></tr>
+              <tr><td>Spuntino</td><td>Latte 250 ml + whey 20 g</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+      <details class="accordion card">
+        <summary><b>Fase 2 – Definizione (~2100 kcal)</b> <span class="tag t-def">P 2.2</span> <span class="tag">C ~3.0</span> <span class="tag">F ~0.8</span></summary>
+        <div class="acc-body">
+          <div class="callout">Deficit moderato, volumi medio-alti, recuperi 60–90s. Giorni OFF: -20–40 g carbo.</div>
+          <table>
+            <thead><tr><th>Pasto</th><th>Esempio</th></tr></thead>
+            <tbody>
+              <tr><td>Colazione</td><td>Albume 250 ml + 1 uovo + pane 40 g + burro arachidi 10 g</td></tr>
+              <tr><td>Spuntino</td><td>Yogurt greco 0% 150 g + avena 20 g + frutta secca 10 g</td></tr>
+              <tr><td>Pranzo</td><td>Riso 120 g + pollo 150 g + EVO 10 g + verdure</td></tr>
+              <tr><td>Cena</td><td>Pesce bianco 180 g + patate dolci 180 g + insalata verde</td></tr>
+              <tr><td>Spuntino</td><td>Latte/veg 250 ml + whey 20 g</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+      <details class="accordion card">
+        <summary><b>Fase 3 – Massa (3000+ kcal)</b> <span class="tag t-massa">P 2.0</span> <span class="tag">C ~5.0</span> <span class="tag">F ~1.0</span></summary>
+        <div class="acc-body">
+          <div class="callout">Surplus intelligente: +0,25–0,5 kg/sett; se 2 sett piatte → +30–50 g carbo/die.</div>
+          <table>
+            <thead><tr><th>Pasto</th><th>Esempio</th></tr></thead>
+            <tbody>
+              <tr><td>Colazione</td><td>Albume 300 ml + 2 uova + pane 80 g + burro arachidi 20 g</td></tr>
+              <tr><td>Spuntino</td><td>Yogurt greco 0% 200 g + avena 50 g + miele 15 g</td></tr>
+              <tr><td>Pranzo</td><td>Riso 180 g + pollo/tacchino 180 g + EVO 10 g + verdure</td></tr>
+              <tr><td>Cena</td><td>Manzo magro/salmone 200 g + patate dolci 250 g + verdure</td></tr>
+              <tr><td>Spuntino</td><td>Latte 250 ml + whey 30 g + mandorle 10 g</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+      <details class="accordion card">
+        <summary><b>Sostituzioni + Spesa (Lidl)</b></summary>
+        <div class="acc-body">
+          <table>
+            <thead><tr><th>Categoria</th><th>1</th><th>2</th><th>3</th><th>4</th></tr></thead>
+            <tbody>
+              <tr><td>Carne bianca 100 g</td><td>Pollo</td><td>Tacchino</td><td>Fesa</td><td>Coniglio</td></tr>
+              <tr><td>Carne rossa 100 g</td><td>Manzo magro</td><td>Vitello</td><td>Cavallo</td><td>-</td></tr>
+              <tr><td>Pesce bianco 150 g</td><td>Merluzzo</td><td>Platessa</td><td>Nasello</td><td>Persico</td></tr>
+              <tr><td>Pesce grasso 100 g</td><td>Salmone</td><td>Sgombro</td><td>Tonno</td><td>Trota</td></tr>
+              <tr><td>Latticini magri 150 g</td><td>Yogurt greco</td><td>Skyr</td><td>Ricotta magra</td><td>Fiocchi di latte</td></tr>
+              <tr><td>Cereali 80 g</td><td>Riso</td><td>Pasta integrale</td><td>Cous cous</td><td>Orzo</td></tr>
+              <tr><td>Tuberi 300 g</td><td>Patate</td><td>Patate dolci</td><td>Batata</td><td>-</td></tr>
+              <tr><td>Legumi 70 g secchi</td><td>Lenticchie</td><td>Ceci</td><td>Fagioli</td><td>Piselli</td></tr>
+            </tbody>
+          </table>
+          <div class="mt8">
+            <b>Spesa 7gg (Lidl):</b> Pollo/tacchino 2kg; Merluzzo/salmone 1.5kg; Riso 2kg; Avena 1kg; Olio EVO 0.5L; Yogurt greco 1.4kg; Verdure 2kg; Frutta secca 350g.
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <!-- ALLENAMENTO -->
+    <section id="view-wo" class="view hide">
+      <div class="card">
+        <h2>Allenamento – 4 giorni (Upper/Lower)</h2>
+        <div class="chips">
+          <span class="tag t-upper">Upper A/B</span><span class="tag t-lower">Lower A/B</span><span class="tag t-core">Finisher Addome</span>
+        </div>
+      </div>
+
+      <details class="accordion card" open>
+        <summary><b>Upper A</b></summary>
+        <div class="acc-body">
+          <ul>
+            <li>Panca piana bilanciere – 4×6–8 (RPE 8) <a class="icon" target="_blank" href="https://www.youtube.com/results?search_query=panca+piana+esecuzione+corretta">Video</a></li>
+            <li>Trazioni presa prona – 4×6 (RPE 8) <a class="icon" target="_blank" href="https://www.youtube.com/results?search_query=trazioni+presa+prona+esecuzione+corretta">Video</a></li>
+            <li>Military press manubri – 3×8–10 (RPE 7) <a class="icon" target="_blank" href="https://www.youtube.com/results?search_query=military+press+manubri+esecuzione+corretta">Video</a></li>
+            <li>Rematore bilanciere – 3×8–10 (RPE 8) <a class="icon" target="_blank" href="https://www.youtube.com/results?search_query=rematore+bilanciere+esecuzione+corretta">Video</a></li>
+            <li>Curl bilanciere – 3×10–12 <a class="icon" target="_blank" href="https://www.youtube.com/results?search_query=curl+bilanciere+esecuzione+corretta">Video</a></li>
+            <li>French press manubri – 3×10–12 <a class="icon" target="_blank" href="https://www.youtube.com/results?search_query=french+press+manubri+esecuzione+corretta">Video</a></li>
+          </ul>
+          <p class="small">Note biomeccaniche: scapole addotte in panca; neutro lombare; ROM controllato.</p>
+        </div>
+      </details>
+
+      <details class="accordion card">
+        <summary><b>Lower A</b></summary>
+        <div class="acc-body">
+          <ul>
+            <li>Squat bilanciere – 4×6–8 (RPE 8) <a class="icon" target="_blank" href="https://www.youtube.com/results?search_query=squat+bilanciere+esecuzione+corretta">Video</a></li>
+            <li>Affondi manubri – 3×10/gamba <a class="icon" target="_blank" href="https://www.youtube.com/results?search_query=affondi+manubri+esecuzione+corretta">Video</a></li>
+            <li>Leg press – 4×10 <a class="icon" target="_blank" href="https://www.youtube.com/results?search_query=leg+press+esecuzione+corretta">Video</a></li>
+            <li>Leg curl – 3×12 <a class="icon" target="_blank" href="https://www.youtube.com/results?search_query=leg+curl+esecuzione+corretta">Video</a></li>
+            <li>Calf standing – 4×15–20 <a class="icon" target="_blank" href="https://www.youtube.com/results?search_query=standing+calf+raise+esecuzione+corretta">Video</a></li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="accordion card">
+        <summary><b>Upper B</b></summary>
+        <div class="acc-body">
+          <ul>
+            <li>Panca inclinata manubri – 4×8–10 <a class="icon" target="_blank" href="https://www.youtube.com/results?search_query=panca+inclinata+manubri+esecuzione+corretta">Video</a></li>
+            <li>Arnold press – 3×10 <a class="icon" target="_blank" href="https://www.youtube.com/results?search_query=arnold+press+esecuzione+corretta">Video</a></li>
+            <li>Lat machine stretta – 4×8–10 <a class="icon" target="_blank" href="https://www.youtube.com/results?search_query=lat+machine+presa+stretta+esecuzione+corretta">Video</a></li>
+            <li>Pulley basso – 3×10 <a class="icon" target="_blank" href="https://www.youtube.com/results?search_query=pulley+basso+esecuzione+corretta">Video</a></li>
+            <li>Curl alternato – 3×12 <a class="icon" target="_blank" href="https://www.youtube.com/results?search_query=curl+alternato+manubri+esecuzione+corretta">Video</a></li>
+            <li>Push down – 3×12 <a class="icon" target="_blank" href="https://www.youtube.com/results?search_query=push+down+cavo+esecuzione+corretta">Video</a></li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="accordion card">
+        <summary><b>Lower B</b></summary>
+        <div class="acc-body">
+          <ul>
+            <li>Stacco da terra – 4×6 <a class="icon" target="_blank" href="https://www.youtube.com/results?search_query=stacco+da+terra+esecuzione+corretta">Video</a></li>
+            <li>Bulgarian split squat – 3×10/gamba <a class="icon" target="_blank" href="https://www.youtube.com/results?search_query=bulgarian+split+squat+esecuzione+corretta">Video</a></li>
+            <li>Hack squat – 4×8–10 <a class="icon" target="_blank" href="https://www.youtube.com/results?search_query=hack+squat+esecuzione+corretta">Video</a></li>
+            <li>Leg extension – 3×12 <a class="icon" target="_blank" href="https://www.youtube.com/results?search_query=leg+extension+esecuzione+corretta">Video</a></li>
+            <li>Calf seated – 4×15 <a class="icon" target="_blank" href="https://www.youtube.com/results?search_query=seated+calf+raise+esecuzione+corretta">Video</a></li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="accordion card">
+        <summary><b>Finisher Addome (3 livelli)</b></summary>
+        <div class="acc-body">
+          <ul>
+            <li>Base: Cable Crunch 3×15–20 + Plank 3×30–45" <a class="icon" target="_blank" href="https://www.youtube.com/results?search_query=cable+crunch+plank+esecuzione+corretta">Video</a></li>
+            <li>Intermedio: Cable Crunch 4×15 + Plank + knee-to-elbow 3×40" <a class="icon" target="_blank" href="https://www.youtube.com/results?search_query=plank+knee+to+elbow+esecuzione+corretta">Video</a></li>
+            <li>Avanzato: Cable Crunch 4×20 + Plank dinamico 3×45" + Hanging Leg Raises 2×8–10 <a class="icon" target="_blank" href="https://www.youtube.com/results?search_query=hanging+leg+raises+esecuzione+corretta">Video</a></li>
+          </ul>
+        </div>
+      </details>
+
+      <div class="card">
+        <h3>Illustrazioni target</h3>
+        <div class="grid grid2">
+          <div class="imgbox">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Gray409.png" alt="Deltoide">
+            <div class="small">Spalle – Deltoide ant/lat/post.</div>
+          </div>
+          <div class="imgbox">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Gray1240.png" alt="Bicipite/Tricipite">
+            <div class="small">Braccia – Bicipite, brachiale, tricipite.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SESSIONE ALLENAMENTO (interattiva) -->
+      <div class="card">
+        <h2>Sessione Allenamento — Strumenti</h2>
+        <div class="session" id="sess">
+          <div class="stopwatch">
+            <div class="time" id="sessTime">00:00:00</div>
+            <a class="btn sm" id="sessStart">Start</a>
+            <a class="btn sm" id="sessPause">Pausa</a>
+            <a class="btn sm" id="sessReset">Reset</a>
+            <span class="pill" id="sessStatus">Pronto</span>
+          </div>
+
+          <div class="selrow">
+            <select id="planSelect">
+              <option value="upperA">Upper A</option>
+              <option value="lowerA">Lower A</option>
+              <option value="upperB">Upper B</option>
+              <option value="lowerB">Lower B</option>
+            </select>
+            <input type="date" id="sessDate">
+            <a class="btn" id="loadPlan">Carica scheda</a>
+          </div>
+
+          <div>
+            <div class="progress"><span id="sessProg"></span></div>
+            <div class="small" id="sessProgTxt">0% • 0/0 serie completate</div>
+          </div>
+
+          <div class="exlist" id="exList"></div>
+
+          <div class="stopwatch">
+            <a class="btn" id="finishSess">Chiudi sessione e salva</a>
+            <a class="btn" id="clearSess">Svuota sessione</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Storico sessioni</h3>
+        <div class="hist" id="histList"></div>
+        <div class="stopwatch">
+          <a class="btn sm" id="clearHist">Cancella storico</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROGRAMMAZIONE -->
+    <section id="view-plan" class="view hide">
+      <div class="card">
+        <h2>Programmazione – giornata tipo & settimana</h2>
+      </div>
+
+      <details class="accordion card" open>
+        <summary><b>Giornata tipo – ferie (11–20/08)</b></summary>
+        <div class="acc-body">
+          <table>
+            <thead><tr><th>Ora</th><th>Attività</th></tr></thead>
+            <tbody>
+              <tr><td>06:00</td><td>Sveglia + idratazione</td></tr>
+              <tr><td>06:30–09:00</td><td>Studio blocco 1</td></tr>
+              <tr><td>09:00</td><td>Colazione</td></tr>
+              <tr><td>09:30–12:30</td><td>Studio blocco 2</td></tr>
+              <tr><td>12:45</td><td>Pranzo</td></tr>
+              <tr><td>15:30–17:00</td><td>Allenamento</td></tr>
+              <tr><td>18:30</td><td>Cena</td></tr>
+              <tr><td>22:30</td><td>Pre-sonno</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+      <details class="accordion card">
+        <summary><b>Settimana tipo – lavoro (senza lezioni)</b> <span class="small">(Lun riposo; Mar–Ven lavoro sera; Sab–Dom doppi turni)</span></summary>
+        <div class="acc-body">
+          <table>
+            <thead><tr><th>Giorno</th><th>Mattina</th><th>Pomeriggio</th><th>Sera</th></tr></thead>
+            <tbody>
+              <tr><td>Lun</td><td>Recupero/Studio leggero</td><td>Mobilità • 30'</td><td>Riposo</td></tr>
+              <tr><td>Mar</td><td>Studio 2.5–3h</td><td><b>Upper A</b></td><td>Lavoro</td></tr>
+              <tr><td>Mer</td><td>Studio 2.5–3h</td><td><b>Lower A</b></td><td>Lavoro</td></tr>
+              <tr><td>Gio</td><td>Studio 2.5–3h</td><td><b>Upper B</b></td><td>Lavoro</td></tr>
+              <tr><td>Ven</td><td>Studio 2.5–3h</td><td><b>Lower B</b></td><td>Lavoro</td></tr>
+              <tr><td>Sab</td><td>Studio 2h</td><td>—</td><td>Doppio turno</td></tr>
+              <tr><td>Dom</td><td>Riposo</td><td>Meal prep</td><td>Doppio turno</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+      <details class="accordion card">
+        <summary><b>Settimana tipo – durante lezioni (3 giorni/sett, 4–6h)</b></summary>
+        <div class="acc-body">
+          <table>
+            <thead><tr><th>Giorno</th><th>Mattina</th><th>Pomeriggio</th><th>Sera</th></tr></thead>
+            <tbody>
+              <tr><td>Lun</td><td>Lezione 4–6h</td><td>Ripasso 60' + Mobilità</td><td>Riposo</td></tr>
+              <tr><td>Mar</td><td>Studio 2h</td><td><b>Upper A</b></td><td>Lavoro</td></tr>
+              <tr><td>Mer</td><td>Lezione 4–6h</td><td>Ripasso 60'</td><td>Lavoro</td></tr>
+              <tr><td>Gio</td><td>Studio 2h</td><td><b>Lower A</b></td><td>Lavoro</td></tr>
+              <tr><td>Ven</td><td>Lezione 4–6h</td><td><b>Upper B</b> o <b>Lower B</b> (alternare)</td><td>—</td></tr>
+              <tr><td>Sab</td><td>Studio 1.5h</td><td>Finisher Addome</td><td>—</td></tr>
+              <tr><td>Dom</td><td>Riposo</td><td>Meal prep</td><td>Setup</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <!-- STRUMENTI -->
+    <section id="view-tools" class="view hide">
+      <div class="card">
+        <h2>Strumenti</h2>
+        <p class="small">Timer Studio/Allenamento, Mini-guida Excel, QR Hub.</p>
+      </div>
+
+      <!-- Pomodoro Studio -->
+      <details class="accordion card" open>
+        <summary><b>Pomodoro Studio</b> <span class="tag">Focus/Break a cicli</span></summary>
+        <div class="acc-body">
+          <div class="timer" id="pomodoro">
+            <div class="display" id="pomodoroDisplay">25:00</div>
+            <div class="state" id="pomodoroState">Pronto • modalità <b>Focus</b></div>
+            <div class="grid2">
+              <div><label>Minuti Focus</label><input type="number" id="pFocus" min="1" value="25"></div>
+              <div><label>Minuti Pausa</label><input type="number" id="pBreak" min="1" value="5"></div>
+            </div>
+            <div class="grid2">
+              <div><label>Cicli</label><input type="number" id="pRounds" min="1" value="4"></div>
+              <div><label>Pausa Lunga (min, ogni 4 cicli)</label><input type="number" id="pLong" min="0" value="15"></div>
+            </div>
+            <div class="rowbtn">
+              <a class="btn sm" id="pStart">Start</a>
+              <a class="btn sm" id="pPause">Pausa</a>
+              <a class="btn sm" id="pReset">Reset</a>
+              <span class="pill" id="pRoundInfo">Ciclo 0/4</span>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- Timer Allenamento -->
+      <details class="accordion card">
+        <summary><b>Timer Allenamento</b> <span class="tag">Lavoro + Recupero</span></summary>
+        <div class="acc-body">
+          <div class="timer" id="wotimer">
+            <div class="display" id="woDisplay">00:30</div>
+            <div class="state" id="woState">Pronto • fase <b>Lavoro</b></div>
+            <div class="grid2">
+              <div><label>Secondi Lavoro</label><input type="number" id="woWork" min="1" value="30"></div>
+              <div><label>Secondi Recupero</label><input type="number" id="woRest" min="0" value="90"></div>
+            </div>
+            <div class="grid2">
+              <div><label>Round totali</label><input type="number" id="woRounds" min="1" value="10"></div>
+              <div><label>Countdown iniziale (sec)</label><input type="number" id="woPrep" min="0" value="5"></div>
+            </div>
+            <div class="rowbtn">
+              <a class="btn sm" id="woStart">Start</a>
+              <a class="btn sm" id="woPause">Pausa</a>
+              <a class="btn sm" id="woReset">Reset</a>
+              <span class="pill" id="woRoundInfo">Round 0/10</span>
+            </div>
+            <div class="rowbtn">
+              <span class="small">Preset rapidi:</span>
+              <a class="btn sm" data-preset="tabata">Tabata (20/10×8)</a>
+              <a class="btn sm" data-preset="emom60">EMOM 60s ×10</a>
+              <a class="btn sm" data-preset="rest90">Recupero 90s</a>
+              <a class="btn sm" data-preset="rest120">Recupero 120s</a>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- Mini guida Excel -->
+      <details class="accordion card">
+        <summary><b>Mini guida Excel Fenice</b></summary>
+        <div class="acc-body">
+          <ul class="small">
+            <li><b>Giorno</b>: data, allenamento, studio/lavoro/sonno, % pasti</li>
+            <li><b>Allenamento</b>: esercizi, serie/reps, peso, RPE, progressione</li>
+            <li><b>Nutrizione_Fasi</b>: kcal/macro per fase</li>
+            <li><b>Sostituzioni</b>: equivalenze</li>
+            <li><b>Tracking</b>: peso, BF, misure + grafici</li>
+            <li><b>Forza_1RM</b>: Epley = Peso×(1+Reps/30)</li>
+          </ul>
+        </div>
+      </details>
+
+      <!-- QR Hub -->
+      <details class="accordion card">
+        <summary><b>QR Hub (sostituisci gli URL)</b></summary>
+        <div class="acc-body">
+          <div class="grid grid2">
+            <div class="card">
+              <h3 class="small">Manuale PDF</h3>
+              <div class="imgbox"><img width="180" height="180"
+                src="https://chart.googleapis.com/chart?cht=qr&chs=180x180&chl=https%3A%2F%2FINSERISCI-LINK-PDF" alt="QR PDF"></div>
+              <div class="small">https://INSERISCI-LINK-PDF</div>
+            </div>
+            <div class="card">
+              <h3 class="small">Excel Fenice</h3>
+              <div class="imgbox"><img width="180" height="180"
+                src="https://chart.googleapis.com/chart?cht=qr&chs=180x180&chl=https%3A%2F%2FINSERISCI-LINK-EXCEL" alt="QR Excel"></div>
+              <div class="small">https://INSERISCI-LINK-EXCEL</div>
+            </div>
+            <div class="card">
+              <h3 class="small">Pronto Allenamento A5</h3>
+              <div class="imgbox"><img width="180" height="180"
+                src="https://chart.googleapis.com/chart?cht=qr&chs=180x180&chl=https%3A%2F%2FINSERISCI-LINK-A5" alt="QR A5"></div>
+              <div class="small">https://INSERISCI-LINK-A5</div>
+            </div>
+            <div class="card">
+              <h3 class="small">Calendario/Agenda</h3>
+              <div class="imgbox"><img width="180" height="180"
+                src="https://chart.googleapis.com/chart?cht=qr&chs=180x180&chl=https%3A%2F%2FINSERISCI-LINK-CAL" alt="QR Calendar"></div>
+              <div class="small">https://INSERISCI-LINK-CAL</div>
+            </div>
+          </div>
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <!-- TABBAR -->
+  <nav class="tabbar">
+    <div class="tabs">
+      <a class="tab active" data-target="view-home">Home</a>
+      <a class="tab" data-target="view-nut">Nutrizione</a>
+      <a class="tab" data-target="view-wo">Allenamento</a>
+      <a class="tab" data-target="view-plan">Programmazione</a>
+      <a class="tab" data-target="view-tools">Strumenti</a>
+    </div>
+  </nav>
+</div>
+
+<script>
+/* Router “a tab” */
+const tabs = document.querySelectorAll('.tab');
+const views = document.querySelectorAll('.view');
+function show(id){
+  views.forEach(v=>v.classList.add('hide'));
+  document.getElementById(id).classList.remove('hide');
+  tabs.forEach(t=>t.classList.toggle('active', t.dataset.target===id));
+  location.hash = id;
+}
+tabs.forEach(t=>t.addEventListener('click',()=>show(t.dataset.target)));
+if(location.hash && document.getElementById(location.hash.slice(1))) show(location.hash.slice(1));
+
+/* Ricerca semplice */
+const q = document.getElementById('search');
+q.addEventListener('input',()=>{
+  const term = q.value.toLowerCase();
+  document.querySelectorAll('.card').forEach(c=>{
+    const hit = c.innerText.toLowerCase().includes(term);
+    c.style.outline = term && hit ? '1px solid #4b9dff' : 'none';
+    c.style.background = term && hit ? 'linear-gradient(180deg,#182233,#111722)' : 'linear-gradient(180deg,#141a24,#111722)';
+  });
+});
+
+/* PWA install prompt */
+let deferredPrompt;
+const installBtn = document.getElementById('installBtn');
+window.addEventListener('beforeinstallprompt',(e)=>{ e.preventDefault(); deferredPrompt = e; installBtn.classList.remove('hide'); });
+installBtn.addEventListener('click', async ()=>{
+  if(!deferredPrompt) return alert('Se non appare, pubblica la cartella su HTTPS (es. GitHub Pages) o usa un server locale.');
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+});
+
+/* Service worker */
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./sw.js').catch(()=>{});
+}
+
+// Utils timer
+const fmt = (s)=> {
+  s = Math.max(0, Math.floor(s));
+  const m = Math.floor(s/60), r = s % 60;
+  return `${String(m).padStart(2,'0')}:${String(r).padStart(2,'0')}`;
+};
+const buzz = ()=> { try{ navigator.vibrate && navigator.vibrate([120,80,120]); }catch(e){} };
+
+// Pomodoro
+(function initPomodoro(){
+  const d = {
+    focus: document.getElementById('pFocus'),
+    brk: document.getElementById('pBreak'),
+    rounds: document.getElementById('pRounds'),
+    plong: document.getElementById('pLong'),
+    disp: document.getElementById('pomodoroDisplay'),
+    state: document.getElementById('pomodoroState'),
+    rinfo: document.getElementById('pRoundInfo'),
+    start: document.getElementById('pStart'),
+    pause: document.getElementById('pPause'),
+    reset: document.getElementById('pReset')
+  };
+  const saved = JSON.parse(localStorage.getItem('fenice_pomo')||'{}');
+  if(saved.focus) d.focus.value = saved.focus;
+  if(saved.brk) d.brk.value = saved.brk;
+  if(saved.rounds) d.rounds.value = saved.rounds;
+  if(saved.plong!=null) d.plong.value = saved.plong;
+
+  let mode = 'focus';
+  let secs = (parseInt(d.focus.value)||25)*60;
+  let totalRounds = parseInt(d.rounds.value)||4;
+  let done = 0, ticking = false, h;
+
+  const save = ()=> localStorage.setItem('fenice_pomo', JSON.stringify({
+    focus: d.focus.value, brk: d.brk.value, rounds: d.rounds.value, plong: d.plong.value
+  }));
+
+  const setState = ()=>{
+    d.disp.textContent = fmt(secs);
+    d.state.innerHTML = `Modalita <b>${mode==='focus'?'Focus':(mode==='break'?'Pausa':'Pausa lunga')}</b>`;
+    d.rinfo.textContent = `Ciclo ${done}/${totalRounds}`;
+  };
+
+  const tick = ()=>{
+    if(!ticking) return;
+    secs--; d.disp.textContent = fmt(secs);
+    if(secs<=0){
+      buzz();
+      if(mode==='focus'){
+        done++;
+        if(done % 4 === 0 && parseInt(d.plong.value)>0){
+          mode='long'; secs = (parseInt(d.plong.value)||15)*60;
+        } else {
+          mode='break'; secs = (parseInt(d.brk.value)||5)*60;
+        }
+      } else {
+        if(done>=totalRounds){ stop(); reset(); return; }
+        mode='focus'; secs = (parseInt(d.focus.value)||25)*60;
+      }
+      setState();
+    }
+    if(ticking) h = setTimeout(tick, 1000);
+  };
+
+  const start = ()=>{ if(ticking) return; ticking=true; h=setTimeout(tick,1000); };
+  const stop = ()=>{ ticking=false; clearTimeout(h); };
+  const reset = ()=>{
+    stop(); mode='focus'; done=0; totalRounds=parseInt(d.rounds.value)||4;
+    secs=(parseInt(d.focus.value)||25)*60; setState();
+  };
+
+  d.start.addEventListener('click', ()=>{ save(); start(); });
+  d.pause.addEventListener('click', stop);
+  d.reset.addEventListener('click', ()=>{ reset(); });
+  [d.focus,d.brk,d.rounds,d.plong].forEach(inp=>inp.addEventListener('change', ()=>{ save(); reset(); }));
+  setState();
+})();
+
+// Workout Timer
+(function initWorkout(){
+  const el = {
+    disp: document.getElementById('woDisplay'),
+    state: document.getElementById('woState'),
+    w: document.getElementById('woWork'),
+    r: document.getElementById('woRest'),
+    n: document.getElementById('woRounds'),
+    prep: document.getElementById('woPrep'),
+    info: document.getElementById('woRoundInfo'),
+    start: document.getElementById('woStart'),
+    pause: document.getElementById('woPause'),
+    reset: document.getElementById('woReset')
+  };
+  const presetsBtns = document.querySelectorAll('#wotimer [data-preset]');
+  const saved = JSON.parse(localStorage.getItem('fenice_wo')||'{}');
+  if(saved.w) el.w.value=saved.w;
+  if(saved.r!=null) el.r.value=saved.r;
+  if(saved.n) el.n.value=saved.n;
+  if(saved.prep!=null) el.prep.value=saved.prep;
+
+  let phase='prep'; let secs= parseInt(el.prep.value)||5;
+  let round=0, total=parseInt(el.n.value)||10;
+  let ticking=false, t;
+
+  const save = ()=> localStorage.setItem('fenice_wo', JSON.stringify({
+    w: el.w.value, r: el.r.value, n: el.n.value, prep: el.prep.value
+  }));
+
+  const setState = ()=>{
+    el.disp.textContent=fmt(secs);
+    el.state.innerHTML = `Fase <b>${phase==='work'?'Lavoro':(phase==='rest'?'Recupero':'Preparazione')}</b>`;
+    el.info.textContent = `Round ${round}/${total}`;
+  };
+
+  const nextPhase = ()=>{
+    if(phase==='prep'){ phase='work'; secs=(parseInt(el.w.value)||30); return; }
+    if(phase==='work'){
+      round++;
+      if(round>total){ stop(); return; }
+      if(parseInt(el.r.value)>0){ phase='rest'; secs=(parseInt(el.r.value)||60); }
+      else { phase='work'; secs=(parseInt(el.w.value)||30); }
+      return;
+    }
+    if(phase==='rest'){ phase='work'; secs=(parseInt(el.w.value)||30); }
+  };
+
+  const tick = ()=>{
+    if(!ticking) return;
+    secs--; el.disp.textContent=fmt(secs);
+    if(secs<=0){ buzz(); nextPhase(); setState(); }
+    if(ticking) t=setTimeout(tick,1000);
+  };
+
+  const start = ()=>{ if(ticking) return; ticking=true; if(secs<=0){ nextPhase(); } setState(); t=setTimeout(tick,1000); };
+  const stop = ()=>{ ticking=false; clearTimeout(t); };
+  const reset = ()=>{ stop(); phase='prep'; secs=(parseInt(el.prep.value)||5); round=0; total=(parseInt(el.n.value)||10); setState(); };
+
+  el.start.addEventListener('click', ()=>{ save(); start(); });
+  el.pause.addEventListener('click', stop);
+  el.reset.addEventListener('click', reset);
+  [el.w,el.r,el.n,el.prep].forEach(inp=>inp.addEventListener('change', ()=>{ save(); reset(); }));
+
+  presetsBtns.forEach(b=>b.addEventListener('click', ()=>{
+    const p=b.dataset.preset;
+    if(p==='tabata'){ el.w.value=20; el.r.value=10; el.n.value=8; el.prep.value=5; }
+    if(p==='emom60'){ el.w.value=60; el.r.value=0; el.n.value=10; el.prep.value=5; }
+    if(p==='rest90'){ el.w.value=0; el.r.value=90; el.n.value=12; el.prep.value=3; phase='rest'; }
+    if(p==='rest120'){ el.w.value=0; el.r.value=120; el.n.value=10; el.prep.value=3; phase='rest'; }
+    save(); reset();
+  }));
+
+  setState();
+})();
+
+// =======================
+// SESSIONE ALLENAMENTO
+// =======================
+const FENICE_PLANS = {
+  upperA: [
+    { name:'Panca piana bilanciere', sets:4, reps:'6–8' },
+    { name:'Trazioni presa prona', sets:4, reps:'6' },
+    { name:'Military press manubri', sets:3, reps:'8–10' },
+    { name:'Rematore bilanciere', sets:3, reps:'8–10' },
+    { name:'Curl bilanciere', sets:3, reps:'10–12' },
+    { name:'French press manubri', sets:3, reps:'10–12' },
+  ],
+  lowerA: [
+    { name:'Squat bilanciere', sets:4, reps:'6–8' },
+    { name:'Affondi manubri', sets:3, reps:'10/gamba' },
+    { name:'Leg press', sets:4, reps:'10' },
+    { name:'Leg curl', sets:3, reps:'12' },
+    { name:'Calf standing', sets:4, reps:'15–20' },
+  ],
+  upperB: [
+    { name:'Panca inclinata manubri', sets:4, reps:'8–10' },
+    { name:'Arnold press', sets:3, reps:'10' },
+    { name:'Lat machine stretta', sets:4, reps:'8–10' },
+    { name:'Pulley basso', sets:3, reps:'10' },
+    { name:'Curl alternato manubri', sets:3, reps:'12' },
+    { name:'Push down cavo', sets:3, reps:'12' },
+  ],
+  lowerB: [
+    { name:'Stacco da terra', sets:4, reps:'6' },
+    { name:'Bulgarian split squat', sets:3, reps:'10/gamba' },
+    { name:'Hack squat', sets:4, reps:'8–10' },
+    { name:'Leg extension', sets:3, reps:'12' },
+    { name:'Calf seated', sets:4, reps:'15' },
+  ],
+};
+
+const SESS_KEY = 'fenice_session';
+const HIST_KEY = 'fenice_history';
+
+const pad2 = n => String(n).padStart(2,'0');
+function fmtHMS(sec){ sec = Math.max(0, Math.floor(sec)); const h = Math.floor(sec/3600), m = Math.floor((sec%3600)/60), s = sec%60; return `${pad2(h)}:${pad2(m)}:${pad2(s)}`; }
+function vibrate(){ try{ navigator.vibrate && navigator.vibrate([80]); }catch(e){} }
+
+const sessTime = document.getElementById('sessTime');
+const sessStatus = document.getElementById('sessStatus');
+const sessStart = document.getElementById('sessStart');
+const sessPause = document.getElementById('sessPause');
+const sessReset = document.getElementById('sessReset');
+
+const planSelect = document.getElementById('planSelect');
+const sessDate = document.getElementById('sessDate');
+const loadPlan = document.getElementById('loadPlan');
+
+const exList = document.getElementById('exList');
+const sessProg = document.getElementById('sessProg');
+const sessProgTxt = document.getElementById('sessProgTxt');
+
+const finishSess = document.getElementById('finishSess');
+const clearSess = document.getElementById('clearSess');
+
+const histList = document.getElementById('histList');
+const clearHist = document.getElementById('clearHist');
+
+let timerOn = false, tHandle = null, tStart = 0, tElapsed = 0;
+let session = null;
+
+function ytLink(name){
+  const q = encodeURIComponent(name + ' esecuzione corretta');
+  return `https://www.youtube.com/results?search_query=${q}`;
+}
+
+function loadSession(){
+  const raw = localStorage.getItem(SESS_KEY);
+  if(raw){ try { session = JSON.parse(raw); } catch(e){ session = null; } }
+  if(!session){
+    session = { date: new Date().toISOString().slice(0,10), plan: planSelect.value,
+      exercises: FENICE_PLANS[planSelect.value].map(e=>({ ...e, done:0, rpe:[] })),
+      startedAt: null, elapsed: 0 };
+    saveSession();
+  }
+  sessDate.value = session.date;
+  planSelect.value = session.plan;
+  renderExercises();
+  renderProgress();
+  tElapsed = session.elapsed||0;
+  sessTime.textContent = fmtHMS(tElapsed);
+  sessStatus.textContent = session.startedAt ? 'In corso' : 'Pronto';
+}
+function saveSession(){ localStorage.setItem(SESS_KEY, JSON.stringify(session)); }
+
+function loadHistory(){
+  const raw = localStorage.getItem(HIST_KEY);
+  let arr = []; if(raw){ try{ arr = JSON.parse(raw)||[]; }catch(e){} }
+  renderHistory(arr); return arr;
+}
+function saveHistory(arr){ localStorage.setItem(HIST_KEY, JSON.stringify(arr)); renderHistory(arr); }
+
+function renderExercises(){
+  exList.innerHTML = '';
+  session.exercises.forEach((ex, idx)=>{
+    const wrap = document.createElement('div');
+    wrap.className = 'ex';
+    wrap.innerHTML = `
+      <h4>${ex.name} <a class="icon" target="_blank" href="${ytLink(ex.name)}">Video</a></h4>
+      <div class="meta">Target: <b>${ex.sets}×${ex.reps}</b> • Fatte: <b id="done-${idx}">${ex.done}</b></div>
+      <div class="ctrl">
+        <a class="btn xs" data-act="minus" data-idx="${idx}">-1 set</a>
+        <a class="btn xs" data-act="plus" data-idx="${idx}">+1 set</a>
+        <span class="pill">RPE ultima</span>
+        <input type="number" min="0" max="10" step="0.5" value="${ex.rpe.length?ex.rpe[ex.rpe.length-1]:''}" data-act="rpe" data-idx="${idx}">
+        <span class="pill">${Math.min(ex.done, ex.sets)}/${ex.sets}</span>
+      </div>
+    `;
+    exList.appendChild(wrap);
+  });
+}
+function renderProgress(){
+  const total = session.exercises.reduce((a,e)=>a+e.sets,0);
+  const done  = session.exercises.reduce((a,e)=>a+Math.min(e.done,e.sets),0);
+  const pct = total? Math.round(100*done/total):0;
+  const bar = Math.min(100,pct);
+  sessProg.style.width = bar+'%';
+  sessProg.className = '';
+  if(pct>=100) sessProg.classList.add('bar-ok');
+  else if(pct>=50) sessProg.classList.add('bar-mid');
+  else sessProg.classList.add('bar-low');
+  sessProgTxt.textContent = `${pct}% • ${done}/${total} serie completate`;
+}
+function renderHistory(arr){
+  histList.innerHTML = '';
+  if(!arr.length){ histList.innerHTML = `<div class="small">Nessuna sessione salvata.</div>`; return; }
+  arr.slice().reverse().forEach(it=>{
+    const div = document.createElement('div');
+    div.className = 'item';
+    const avg = it.avgRPE!==null? it.avgRPE.toFixed(1) : '-';
+    div.innerHTML = `<div><b>${it.date}</b> • <span class="tag">${it.plan}</span></div>
+      <div class="small">Durata: ${fmtHMS(it.elapsed)} • Serie: ${it.done}/${it.total} • RPE medio: ${avg}</div>`;
+    histList.appendChild(div);
+  });
+}
+
+// Delegation eventi esercizi
+exList.addEventListener('click', (e)=>{
+  const a = e.target.closest('a[data-act]');
+  if(!a) return;
+  const idx = parseInt(a.dataset.idx);
+  const ex = session.exercises[idx];
+  if(a.dataset.act==='plus'){ ex.done = Math.min(ex.done+1, ex.sets); vibrate(); }
+  else if(a.dataset.act==='minus'){ ex.done = Math.max(ex.done-1, 0); }
+  document.getElementById(`done-${idx}`).textContent = ex.done;
+  saveSession(); renderProgress();
+});
+exList.addEventListener('change', (e)=>{
+  const inp = e.target.closest('input[data-act="rpe"]');
+  if(!inp) return;
+  const idx = parseInt(inp.dataset.idx);
+  const ex = session.exercises[idx];
+  const val = parseFloat(inp.value);
+  if(!isNaN(val)) ex.rpe.push(val);
+  saveSession();
+});
+
+// Gestione piano/data
+loadPlan.addEventListener('click', ()=>{
+  session.plan = planSelect.value;
+  session.date = sessDate.value || new Date().toISOString().slice(0,10);
+  session.exercises = FENICE_PLANS[session.plan].map(e=>({ ...e, done:0, rpe:[] }));
+  session.elapsed = 0; session.startedAt = null; tElapsed = 0;
+  saveSession();
+  renderExercises(); renderProgress();
+  sessTime.textContent = fmtHMS(0);
+  sessStatus.textContent = 'Pronto';
+});
+
+// Cronometro sessione
+function tick(){
+  if(!timerOn) return;
+  const now = Date.now();
+  tElapsed = Math.floor((now - tStart)/1000);
+  sessTime.textContent = fmtHMS(tElapsed);
+  tHandle = requestAnimationFrame(tick);
+}
+sessStart.addEventListener('click', ()=>{
+  if(timerOn) return;
+  if(!session.startedAt){ session.startedAt = Date.now(); }
+  tStart = Date.now() - (session.elapsed*1000||0);
+  timerOn = true; sessStatus.textContent = 'In corso';
+  tick();
+});
+sessPause.addEventListener('click', ()=>{
+  if(!timerOn) return;
+  timerOn = false; cancelAnimationFrame(tHandle);
+  session.elapsed = tElapsed; saveSession();
+  sessStatus.textContent = 'In pausa';
+});
+sessReset.addEventListener('click', ()=>{
+  timerOn = false; cancelAnimationFrame(tHandle);
+  tElapsed = 0; session.elapsed = 0; session.startedAt = null;
+  sessTime.textContent = fmtHMS(0);
+  sessStatus.textContent = 'Pronto';
+  saveSession();
+});
+
+// Fine sessione -> salva storico
+finishSess.addEventListener('click', ()=>{
+  if(timerOn){ timerOn=false; cancelAnimationFrame(tHandle); }
+  session.elapsed = tElapsed;
+
+  const total = session.exercises.reduce((a,e)=>a+e.sets,0);
+  const done  = session.exercises.reduce((a,e)=>a+Math.min(e.done,e.sets),0);
+  const rpes  = session.exercises.flatMap(e=>e.rpe);
+  const avgRPE = rpes.length? (rpes.reduce((a,b)=>a+b,0)/rpes.length) : null;
+
+  const entry = { date: session.date, plan: session.plan, elapsed: session.elapsed, total, done, avgRPE };
+  const hist = loadHistory();
+  hist.push(entry);
+  saveHistory(hist);
+  vibrate(); sessStatus.textContent = 'Sessione salvata';
+});
+
+// Svuota sessione (mantiene storico)
+clearSess.addEventListener('click', ()=>{
+  if(timerOn){ timerOn=false; cancelAnimationFrame(tHandle); }
+  session = {
+    date: new Date().toISOString().slice(0,10),
+    plan: planSelect.value,
+    exercises: FENICE_PLANS[planSelect.value].map(e=>({ ...e, done:0, rpe:[] })),
+    startedAt: null, elapsed: 0
+  };
+  saveSession(); renderExercises(); renderProgress();
+  tElapsed=0; sessTime.textContent = fmtHMS(0); sessStatus.textContent='Pronto';
+});
+
+// Pulisci storico
+clearHist.addEventListener('click', ()=>{
+  if(!confirm('Cancellare tutto lo storico?')) return;
+  saveHistory([]);
+});
+
+// Init
+(function initAll(){
+  sessDate.value = new Date().toISOString().slice(0,10);
+  loadHistory();
+  loadSession();
+})();
+</script>
+</body>
+</html>
