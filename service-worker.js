@@ -1,5 +1,5 @@
 
-const CACHE = 'fenice-v7';
+const CACHE = 'fenice-v12';
 const ASSETS = [
   './index.html',
   './fenice_diet_training_12w_all_ccapi.html',
@@ -13,6 +13,8 @@ const ASSETS = [
   './Fenice_Study.ics',
   './Fenice_Classes.ics',
   './Fenice_Internship.ics'
+,
+  './study.html'
 ];
 
 self.addEventListener('install', (e) => {

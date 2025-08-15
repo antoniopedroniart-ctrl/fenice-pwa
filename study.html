@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="it"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fenice • Studio</title>
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+:root{--bg:#0f1320;--panel:#12182a;--ink:#e9eef7;--ink2:#9bb0d0;--line:#2c3550}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);
+font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,sans-serif}
+.topbar{position:sticky;top:0;z-index:40;display:flex;justify-content:space-between;align-items:center;gap:12px;
+background:#0b0e19;border-bottom:1px solid var(--line);padding:10px 14px}
+.brand{font-weight:700}nav{display:flex;gap:8px;flex-wrap:wrap}
+.nav-btn{color:var(--ink);text-decoration:none;border:1px solid var(--line);padding:6px 10px;border-radius:10px}.nav-btn.active{background:#1a2033}
+.container{max-width:1100px;margin:0 auto;padding:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px}
+.small{color:var(--ink2);font-size:12px}
+.table{width:100%;border-collapse:collapse}.table th,.table td{border-bottom:1px solid #222a3d;padding:8px 6px;vertical-align:top}.table th{text-align:left;color:#9bb0d0}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-block;margin-top:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;text-decoration:none;color:#e9eef7;background:#1a2033;cursor:pointer}
+.counter{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:2px 6px;background:#0b0e19}
+.counter button{border:0;background:#1a2033;color:#e9eef7;border-radius:8px;padding:4px 8px;cursor:pointer}
+.counter .val{min-width:22px;text-align:center}
+.grid{display:grid;gap:12px;grid-template-columns:1fr 1fr}@media(max-width:900px){.grid{grid-template-columns:1fr}}
+svg{max-width:100%;height:auto;display:block}
+.toast-update{position:fixed;left:12px;right:12px;bottom:12px;z-index:100;background:#12182a;color:#e9eef7;border:1px solid #2c3550;border-radius:12px;padding:12px;display:none;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.toast-update .row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.toast-update .btn{border:1px solid #2c3550;background:#1a2033;color:#e9eef7;border-radius:10px;padding:6px 10px;cursor:pointer}
+
+.progress{height:12px;background:#0b0e19;border:1px solid #2c3550;border-radius:999px;overflow:hidden}
+.progress .fill{height:100%;width:0%;background:#06d6a0;transition:width .3s}
+.progress .fill.warn{background:#ffd166}
+.progress .fill.crit{background:#ff6b6b}
+.exam-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.exam-row .label{min-width:220px}
+.exam-row .meta{font-size:12px;color:#9bb0d0}
+
+</style>
+</head><body>
+<header class="topbar"><div class="brand">Fenice</div>
+<nav>
+  <a class="nav-btn" href="./index.html">🏠 Home</a>
+  <a class="nav-btn" href="./fenice_diet_training_12w_all_ccapi.html">📅 Piano</a>
+  <a class="nav-btn" href="./tools.html">⚙️ Strumenti</a>
+  <a class="nav-btn active" href="./study.html">📚 Studio</a>
+  <button id="btnInstallAlways" class="nav-btn">⬇️ Installa</button>
+</nav>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <h2>📚 Studio — Pianificazione dinamica</h2>
+    <p class="small">La scaletta si adatta automaticamente in base a data odierna, ore disponibili e priorità esami.</p>
+    <div class="row">
+      <label class="small">Intervallo:</label> <select id="weeksRange" class="nav-btn"><option value="2">2 settimane</option><option value="4" selected>4 settimane</option><option value="8">8 settimane</option></select> <button class="btn" id="btnExportICS">📤 Esporta .ics</button>
+      <label class="small">Sessione tipica: </label>
+      <button class="btn" onclick="setSession(50,10)">50′/10′</button>
+      <button class="btn" onclick="setSession(90,15)">90′/15′</button>
+      <button class="btn" onclick="setSession(25,5)">25′/5′</button>
+      <span class="small" id="sessInfo"></span>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card" id="daily">
+      <h3>📆 Oggi — <span id="todayLabel"></span></h3>
+      <table class="table"><thead><tr><th>Slot</th><th>Materia / Argomenti</th><th>Sessioni</th></tr></thead><tbody id="dailyBody"></tbody></table>
+      <div class="small">I blocchi sono generati considerando lavoro/lezioni/allenamenti. Puoi cambiare la durata della sessione sopra.</div>
+    </div>
+
+    <div class="card">
+      <h3>📈 Timeline esami</h3>
+      <svg id="timeline" viewBox="0 0 800 240" role="img" aria-label="Timeline esami"></svg>
+      <div class="small">Barre: tempo rimanente. Cerchi: oggi / scadenza. Colore in base ai giorni rimanenti.</div>
+    </div>
+  </div>
+
+
+  <div class="card">
+    <h3>📊 Cruscotto avanzamento esami</h3>
+    <div id="dash"></div>
+    <div class="small">Progresso calcolato su sessioni richieste in base alla durata corrente (es. 50′/10′). Cambiando la durata sessione, i target si aggiornano.</div>
+  </div>
+
+  <div class="card">
+    <h3>⏱️ Sessioni — Timer + Contatori</h3>
+    <div class="row">
+      <button class="btn" onclick="startTimer()">Avvia</button>
+      <button class="btn" onclick="stopTimer()">Stop</button>
+      <span id="timer" style="font-size:32px;margin-left:8px">00:00</span>
+      <span class="small" id="timerLabel"></span>
+    </div>
+    <div class="row" style="margin-top:8px">
+      <div class="counter" data-key="study-sessions"><button onclick="dec('study-sessions')">−</button><span class="val" id="v-study-sessions">0</span><button onclick="inc('study-sessions')">+</button></div>
+      <span class="small">Sessioni completate oggi</span>
+      <button class="btn" id="resetCounters">🗑️ Reset contatori</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Update toast (same behavior as other pages) -->
+<div class="toast-update" id="toastUpdate">
+  <div class="row">
+    <div class="msg">È disponibile un aggiornamento di <b>Fenice</b>.</div>
+    <div class="actions">
+      <button class="btn" id="btnUpdNow">Aggiorna ora</button>
+      <button class="btn" id="btnUpdLater">Più tardi</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// SW registration (if not already)
+if('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('./service-worker.js').catch(function(e){ console.warn('SW reg failed:', e); });
+  });
+}
+// Install button behavior
+let deferredPromptAlways=null;
+window.addEventListener('beforeinstallprompt',(e)=>{ e.preventDefault(); deferredPromptAlways=e; });
+document.getElementById('btnInstallAlways').addEventListener('click', async ()=>{
+  if(deferredPromptAlways){ deferredPromptAlways.prompt(); await deferredPromptAlways.userChoice; deferredPromptAlways=null; return; }
+  if(/iphone|ipad|ipod/i.test(navigator.userAgent)){ alert('Su iOS: Condividi → Aggiungi a Home'); }
+  else { alert('Se non compare il prompt: menu browser → Aggiungi a schermata Home'); }
+});
+
+// ----- DATA MODEL -----
+const EXAMS = [
+  { key:'istologia', name:'Istologia', date:'2025-09-15', prereq:null, hours:40,
+    topics:['Tessuti epiteliali','Connettivo','Cartilagine e osso','Sangue','Muscolare','Nervoso','Organi linfoidi','Microscopia e preparati'] },
+  { key:'semchir', name:'Semeiotica Medica e Chirurgica', date:'2025-09-12', prereq:null, hours:50,
+    topics:['Anamnesi e ispezione','Auscultazione cardiaca','Auscultazione polmonare','Addome','Esame neurologico','Semiotica chirurgica base','Segni e sintomi-quadri','Casi clinici'] },
+  { key:'bioch1', name:'Biochimica 1', date:'2025-09-26', prereq:null, hours:70,
+    topics:['Struttura proteine','Enzimologia','Metabolismo glucidi','Glicolisi/Gluconeogenesi','Ciclo di Krebs','Fosforilazione ossidativa','Metabolismo lipidi','Metabolismo amminoacidi'] },
+  { key:'immuno', name:'Immunologia', date:'2025-12-10', prereq:null, hours:60,
+    topics:['Innato vs adattativo','Antigeni e anticorpi','MHC e presentazione','Attivazione linfociti','Ipersensibilità','Autoimmunità','Immunologia clinica','Vaccini'] },
+  { key:'bioch2', name:'Biochimica 2', date:'2025-12-16', prereq:'bioch1', hours:80,
+    topics:['Integrazione metabolica','Endocrino/metabolico','Segnalazione cellulare','Vie biosintetiche','Assetto nutrizionale e ormoni','Regolazione genica','Metabolismo tissutale','Casi clinici/metabolici'] }
+];
+
+// Work schedule (for available morning/afternoon/evening)
+function isWork(dateObj){
+  const d = new Date(dateObj);
+  const y=d.getFullYear(), m=d.getMonth()+1, da=d.getDate();
+  // special period 21-31 Aug 2025
+  if(y===2025 && m===8 && da>=21 && da<=31){
+    if(da===24) return {lunch:false, dinner:false};
+    if(da===25) return {lunch:false, dinner:true};
+    return {lunch:true, dinner:true};
+  }
+  // regular: Tue-Fri dinner; Sat/Sun lunch+dinner
+  const wd=d.getDay(); // 0 Sun
+  if(wd>=2 && wd<=5) return {lunch:false, dinner:true};
+  if(wd===6 || wd===0) return {lunch:true, dinner:true};
+  return {lunch:false, dinner:false}; // Monday off work
+}
+
+// Classes schedule (placeholder Mon/Wed/Fri 9-16 from Oct 6, 2025 to Jun 5, 2026)
+function hasClasses(dateObj){
+  const d = new Date(dateObj);
+  const start = new Date('2025-10-06'); const end = new Date('2026-06-05');
+  if(d<start || d>end) return false;
+  const wd=d.getDay();
+  return (wd===1 || wd===3 || wd===5);
+}
+
+// Training days for planning (Tue U1, Wed L1, Thu U2, Sat L2 mornings)
+function trainingLabel(dateObj){
+  const wd = new Date(dateObj).getDay();
+  if(wd===2) return 'Upper 1 (07:30-09:00)';
+  if(wd===3) return 'Lower 1 (07:30-09:00)';
+  if(wd===4) return 'Upper 2 (07:30-09:00)';
+  if(wd===6) return 'Lower 2 (09:30-11:00)';
+  return null;
+}
+
+// ----- DAILY PLAN GENERATOR -----
+function daysBetween(a,b){ return Math.ceil((b-a)/(1000*60*60*24)); }
+function todayISO(){ const d=new Date(); return d.toISOString().slice(0,10); }
+
+function computePriority(exam, today){
+  const days = Math.max(1, daysBetween(today, new Date(exam.date)));
+  // base weight inversely proportional to days; more urgent → higher weight
+  let w = 100/days;
+  // prerequisite bonus: ensure Bioch1 prima di Bioch2
+  if(exam.prereq){ const prereq = EXAMS.find(e=>e.key===exam.prereq); if(prereq && new Date(prereq.date)>new Date(exam.date)) w += 0.2; }
+  return w;
+}
+
+function availableStudyBlocks(dateObj){
+  // Return array of blocks: {label, minutes}
+  const blocks=[];
+  const wd = new Date(dateObj).getDay();
+  const work = isWork(dateObj);
+  const classes = hasClasses(dateObj);
+  // Wake at 6:00; Reserve training slot if present
+  const train = trainingLabel(dateObj);
+  // Morning base 06:30-12:30 (6h)
+  let morning = 6*60;
+  if(train){ morning -= 90; }
+  if(classes){ morning -= 180; } // assume half morning taken by classes 9-12
+  if(morning>60) blocks.push({label:'Mattina', minutes: morning});
+  // Afternoon 15:00-18:00 (3h) reduced by classes or work lunch recovery
+  let afternoon = 3*60;
+  if(classes){ afternoon = Math.max(60, afternoon - 180 + 90); } // if classes 9-16, keep at least 1h
+  if(work.lunch){ afternoon = Math.max(60, 90); } // between shifts
+  blocks.push({label:'Pomeriggio', minutes: afternoon});
+  // Evening pre-dinner (se non lavoro): 18:00-20:00
+  if(!work.dinner){ blocks.push({label:'Sera', minutes: 120}); }
+  return blocks;
+}
+
+let SESSION_LEN=50, BREAK_LEN=10;
+function setSession(mins, brk){ SESSION_LEN=mins; BREAK_LEN=brk; localStorage.setItem('fenice:study:session', JSON.stringify({m:mins,b:brk})); renderSessionInfo(); renderToday(); }
+function renderSessionInfo(){ const el=document.getElementById('sessInfo'); if(!el) return; el.textContent = `(${SESSION_LEN}′ studio / ${BREAK_LEN}′ pausa)`; }
+
+function renderToday(){
+  const tBody = document.getElementById('dailyBody');
+  const tk = document.getElementById('todayLabel');
+  if(!tBody||!tk) return;
+  const today = new Date();
+  const dn = ['Domenica','Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato'][today.getDay()];
+  tk.textContent = dn + ' ' + String(today.getDate()).padStart(2,'0') + '/' + String(today.getMonth()+1).padStart(2,'0');
+
+  // Priorities and allocation
+  const sorted = [...EXAMS].sort((a,b)=>computePriority(b,today)-computePriority(a,today));
+  const blocks = availableStudyBlocks(today);
+  tBody.innerHTML = '';
+  // Allocate sessions per block proportionally to priority and remaining hours
+  const remaining = {};
+  sorted.forEach(e=>remaining[e.key]=e.hours);
+  function popTopic(e){ return e.topics.shift() || 'Ripasso / Quiz / Simulazioni'; }
+
+  blocks.forEach(blk=>{
+    // how many sessions fit in this block?
+    const sessions = Math.max(1, Math.floor(blk.minutes / (SESSION_LEN + BREAK_LEN)));
+    // split sessions across top 2 priorities of the moment
+    const focus = sorted.slice(0,2);
+    let rowHTML = '';
+    focus.forEach((exam,i)=>{
+      if(sessions<=0) return;
+      const use = i===0 ? Math.ceil(sessions*0.6) : Math.floor(sessions*0.4);
+      const topics = [];
+      for(let k=0;k<use;k++){ topics.push(popTopic(exam)); remaining[exam.key] = Math.max(0, remaining[exam.key]-SESSION_LEN/60); }
+      if(use>0){
+        const cntKey = `study-${exam.key}`;
+        rowHTML += `<tr><td>${blk.label}</td><td><b>${exam.name}</b><br><span class="small">${topics.join(' · ')}</span></td>
+          <td><span class='counter' data-key='${cntKey}'><button onclick="dec('${cntKey}')">−</button><span class='val' id='v-${cntKey}'>0</span><button onclick="inc('${cntKey}')">+</button></span></td></tr>`;
+      }
+    });
+    if(rowHTML) tBody.insertAdjacentHTML('beforeend', rowHTML);
+  });
+
+  // Add contextual notes row
+  const trn = trainingLabel(today);
+  if(trn){
+    tBody.insertAdjacentHTML('beforeend', `<tr><td>Nota</td><td colspan="2" class="small">Allenamento oggi: ${trn}. Regola i blocchi di studio se necessario.</td></tr>`);
+  }
+  // Render counters
+  document.querySelectorAll('.counter').forEach(c=>renderCounter(c.dataset.key));
+}
+
+// ---- Counters utilities ----
+function key(k){return 'fenice:set:'+k;} function read(k){return parseInt(localStorage.getItem(key(k))||'0',10)}
+function write(k,v){localStorage.setItem(key(k), String(v))}
+function renderCounter(k){ const el=document.getElementById('v-'+k); if(el) el.textContent=read(k) }
+function inc(k){ const v=read(k)+1; write(k,v); renderCounter(k); incDailySessions(); }
+function dec(k){ const v=Math.max(0,read(k)-1); write(k,v); renderCounter(k); }
+document.addEventListener('DOMContentLoaded',()=>{
+  // daily sessions counter separate
+  renderCounter('study-sessions');
+  document.getElementById('resetCounters').addEventListener('click',()=>{
+    if(!confirm('Azzero tutti i contatori di studio?')) return;
+    Object.keys(localStorage).forEach(k=>{ if(k.startsWith('fenice:set:study')) localStorage.removeItem(k); });
+    document.querySelectorAll('.counter .val').forEach(v=>v.textContent='0');
+  });
+});
+
+function incDailySessions(){ const k='study-sessions'; const v=read(k)+1; write(k,v); renderCounter(k); }
+
+// ---- Timer ----
+let intv=0, remain=0, phase='work'; // work → break
+function updateTimer(){ const m=String(Math.floor(remain/60)).padStart(2,'0'); const s=String(remain%60).padStart(2,'0'); document.getElementById('timer').textContent=m+':'+s; document.getElementById('timerLabel').textContent = (phase==='work'?'Studio':'Pausa'); }
+function startTimer(){ clearInterval(intv); phase='work'; remain=SESSION_LEN*60; updateTimer(); intv=setInterval(()=>{ remain--; if(remain<=0){ if(phase==='work'){ phase='break'; remain=BREAK_LEN*60; incDailySessions(); } else { phase='work'; remain=SESSION_LEN*60; } } updateTimer(); },1000); }
+function stopTimer(){ clearInterval(intv); }
+function loadSession(){ try{ const s=JSON.parse(localStorage.getItem('fenice:study:session')||'{}'); if(s.m) { SESSION_LEN=s.m; BREAK_LEN=s.b||10; } }catch(e){} renderSessionInfo(); }
+
+// ---- Timeline SVG ----
+function renderTimeline(){
+  const svg = document.getElementById('timeline'); if(!svg) return;
+  const W=780, H=200, L=20, T=20, R=760, B=180;
+  const today = new Date();
+  const minD = today; const maxD = new Date(Math.max(...EXAMS.map(e=>+new Date(e.date))));
+  const span = (maxD - minD) || (1000*60*60*24);
+  function xFor(d){ return L + ( (new Date(d) - minD) / span ) * (R - L); }
+  function daysLeft(d){ return Math.ceil((new Date(d)-today)/(1000*60*60*24)); }
+  // Build content
+  let out = `<rect x="0" y="0" width="${W}" height="${H}" fill="transparent"/>`;
+  out += `<line x1="${L}" y1="${B}" x2="${R}" y2="${B}" stroke="#2c3550"/>`;
+  // today marker
+  const xt = xFor(today);
+  out += `<line x1="${xt}" y1="${T}" x2="${xt}" y2="${B}" stroke="#44507a" stroke-dasharray="4 4"/>`;
+  // exams bars
+  EXAMS.forEach((e,i)=>{
+    const x = xFor(today)+4;
+    const xe = xFor(e.date);
+    const y = T + 20 + i*28;
+    const w = Math.max(4, xe-x);
+    const left = daysLeft(e.date);
+    const col = left<=7 ? '#ff6b6b' : (left<=21 ? '#ffd166' : '#06d6a0');
+    out += `<rect x="${x}" y="${y}" width="${w}" height="10" fill="${col}"/>`;
+    out += `<circle cx="${xe}" cy="${y+5}" r="5" fill="${col}" />`;
+    out += `<text x="${x}" y="${y-2}" fill="#9bb0d0" font-size="11">${e.name} — ${e.date} (${left}g)</text>`;
+  });
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.innerHTML = out;
+}
+
+// ---- Update toast (reuse existing SW behavior) ----
+(function(){
+  let newWorker = null;
+  function showToast(){ const t=document.getElementById('toastUpdate'); if(t) t.style.display='block'; }
+  function hideToast(){ const t=document.getElementById('toastUpdate'); if(t) t.style.display='none'; }
+  function refreshPage(){ if(newWorker){ newWorker.postMessage({type:'SKIP_WAITING'}); } setTimeout(()=>location.reload(true), 300); }
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.getRegistration().then(reg=>{
+      if(!reg) return;
+      if(reg.waiting){ newWorker = reg.waiting; showToast(); }
+      reg.addEventListener('updatefound', ()=>{
+        const installing = reg.installing;
+        if(!installing) return;
+        installing.addEventListener('statechange', ()=>{
+          if(installing.state === 'installed' && navigator.serviceWorker.controller){
+            newWorker = reg.waiting; showToast();
+          }
+        });
+      });
+    });
+    navigator.serviceWorker.addEventListener('controllerchange', ()=>{ hideToast(); });
+  }
+  document.getElementById('btnUpdNow').addEventListener('click', ()=>{ refreshPage(); });
+  document.getElementById('btnUpdLater').addEventListener('click', ()=>{ const t=document.getElementById('toastUpdate'); if(t) t.style.display='none'; });
+})();
+
+// ---- Init ----
+document.addEventListener('DOMContentLoaded', ()=>{
+  loadSession(); renderToday(); renderTimeline();
+  // init counters render in this page
+  document.querySelectorAll('.counter').forEach(c=>{ const k=c.dataset.key; const el=document.getElementById('v-'+k); if(el){ const v=localStorage.getItem('fenice:set:'+k)||'0'; el.textContent=v; } });
+});
+</script>
+
+<script>
+
+// ---- Progress helpers ----
+function sessionsNeededForExam(ex){ return Math.ceil((ex.hours) / (SESSION_LEN/60)); }
+function sessionsDoneForExam(ex){ const k='fenice:set:study-'+ex.key; const v=parseInt(localStorage.getItem(k)||'0',10); return isNaN(v)?0:v; }
+function progressPct(ex){ const need=sessionsNeededForExam(ex), done=sessionsDoneForExam(ex); if(need<=0) return 0; return Math.min(100, Math.round((done/need)*100)); }
+
+// ---- ICS Export (next N weeks) ----
+function fmtDateICS(dt){ // floating (no TZ) local time
+  const z=n=>String(n).padStart(2,'0');
+  return dt.getFullYear()+z(dt.getMonth()+1)+z(dt.getDate())+'T'+z(dt.getHours())+z(dt.getMinutes())+'00';
+}
+function icsHeader(){ return "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Fenice//Study//IT\nCALSCALE:GREGORIAN\nMETHOD:PUBLISH\n"; }
+function icsFooter(){ return "END:VCALENDAR\n"; }
+function icsEvent(start, end, summary){
+  const uid = summary.replace(/[^a-z0-9]+/gi,'-')+"-"+start.getTime()+"@fenice";
+  return ["BEGIN:VEVENT",
+          "UID:"+uid,
+          "DTSTAMP:"+fmtDateICS(new Date()),
+          "DTSTART:"+fmtDateICS(start),
+          "DTEND:"+fmtDateICS(end),
+          "SUMMARY:"+summary,
+          "END:VEVENT\n"].join("\n");
+}
+function planForDay(d){
+  // replicate allocation used in renderToday()
+  const sorted = [...EXAMS].sort((a,b)=>computePriority(b,d)-computePriority(a,d));
+  const blocks = availableStudyBlocks(d);
+  const remaining = {}; sorted.forEach(e=>remaining[e.key]=e.hours);
+  function popTopic(e){ return e.topics.shift() || 'Ripasso / Quiz / Simulazioni'; }
+  const dn = ['Domenica','Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato'][d.getDay()];
+  const items = [];
+  let cursor = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 6, 30, 0);
+  if(trainingLabel(d)){ cursor = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 9, 30, 0); } // after potential morning training
+  blocks.forEach(blk=>{
+    const sessions = Math.max(1, Math.floor(blk.minutes / (SESSION_LEN + BREAK_LEN)));
+    const focus = sorted.slice(0,2);
+    focus.forEach((exam,i)=>{
+      const use = i===0 ? Math.ceil(sessions*0.6) : Math.floor(sessions*0.4);
+      for(let k=0;k<use;k++){
+        const start = new Date(cursor);
+        const end = new Date(start.getTime() + SESSION_LEN*60000);
+        const topic = popTopic(exam);
+        const label = exam.name + " — " + topic + ` (${SESSION_LEN}′)`;
+        items.push({start,end,label});
+        // advance cursor by session + break
+        cursor = new Date(end.getTime() + BREAK_LEN*60000);
+      }
+    });
+    // pad to next block start heuristically
+    cursor = new Date(cursor.getTime() + 30*60000);
+  });
+  return items;
+}
+function exportICS(){
+  const today = new Date();
+  const until = new Date(today.getTime() + 27*24*60*60*1000);
+  let ics = icsHeader();
+  for(let t = new Date(today.getFullYear(), today.getMonth(), today.getDate()); t<=until; t = new Date(t.getTime()+24*60*60*1000)){
+    const dayItems = planForDay(t);
+    dayItems.forEach(ev=>{ ics += icsEvent(ev.start, ev.end, ev.label); });
+  }
+  ics += icsFooter();
+  const blob = new Blob([ics], {type:'text/calendar;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'Fenice_Study_Next4Weeks.ics';
+  document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+}
+document.addEventListener('DOMContentLoaded', ()=>{
+  const btn = document.getElementById('btnExportICS'); if(btn) btn.addEventListener('click', exportICS);
+});
+</script>
+
+
+<script>
+function sessionsNeededForExamDynamic(ex){ return Math.max(1, Math.ceil(ex.hours / (SESSION_LEN/60))); }
+function sessionsDoneForExamKey(key){ const k='fenice:set:study-'+key; const v=parseInt(localStorage.getItem(k)||'0',10); return isNaN(v)?0:v; }
+
+function hoursPerSession(){ return (SESSION_LEN/60); }
+function hoursRemaining(ex){
+  const done = sessionsDoneForExamKey(ex.key) * hoursPerSession();
+  return Math.max(0, Math.round((ex.hours - done)*10)/10); // 0.1h precision
+}
+
+function pctCls(p){ if(p<=25) return 'crit'; if(p<=60) return 'warn'; return ''; }
+function renderDashboard(){
+  const host = document.getElementById('dash'); if(!host) return;
+  let html = '';
+  EXAMS.forEach(ex=>{
+    const need = sessionsNeededForExamDynamic(ex);
+    const done = sessionsDoneForExamKey(ex.key);
+    const pct = Math.min(100, Math.round((done/need)*100));
+    const cls = pctCls(pct);
+    html += `<div class="exam-row">
+      <div class="label"><b>${ex.name}</b> <span class="meta">(${done}/${need} sessioni · ${pct}% · ${hoursRemaining(ex)}h rimanenti)</span></div>
+      <div class="progress" style="flex:1 1 320px"><div class="fill ${cls}" style="width:${pct}%"></div></div>
+    </div>`;
+  });
+  host.innerHTML = html;
+}
+// Hook existing updates
+const _oldSetSession = setSession;
+setSession = function(mins, brk){ _oldSetSession(mins, brk); renderDashboard(); };
+const _oldInc = inc;
+inc = function(k){ _oldInc(k); renderDashboard(); };
+const _oldDec = dec;
+dec = function(k){ _oldDec(k); renderDashboard(); };
+document.addEventListener('DOMContentLoaded', ()=>{ renderDashboard(); });
+</script>
+
+</body></html>
