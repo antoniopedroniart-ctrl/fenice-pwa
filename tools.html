@@ -32,7 +32,7 @@ background:#0b0e19;border-bottom:1px solid var(--line);padding:10px 14px}
 .badge-muscle{font-size:12px;border:1px solid var(--line);border-radius:8px;padding:2px 6px;margin-left:8px;opacity:.9}
 hr.sep{border:none;border-top:1px dashed #2c3550;margin:10px 0} #t{font-size:42px;margin:12px}button.btn{cursor:pointer}</style>
 </head><body>
-<header class="topbar"><div class="brand">Fenice</div><nav><a class="nav-btn" href="index.html">🏠 Home</a><a class="nav-btn" href="fenice_diet_training_12w_all_ccapi.html">📅 Piano</a><a class="nav-btn active" href="tools.html">⚙️ Strumenti</a><a class="nav-btn" href="fenice_diet_training_12w_all_ccapi.html#calendar">🗓️ Calendari</a><button id="btnInstall" class="nav-btn" style="display:none">⬇️ Installa</button></nav></header>
+<header class="topbar"><div class="brand">Fenice</div><nav><a class="nav-btn" href="index.html">🏠 Home</a><a class="nav-btn" href="fenice_diet_training_12w_all_ccapi.html">📅 Piano</a><a class="nav-btn active" href="tools.html">⚙️ Strumenti</a><a class="nav-btn" href="fenice_diet_training_12w_all_ccapi.html#calendar">🗓️ Calendari</a><button id="btnInstall" class="nav-btn" style="display:none">⬇️ Installa</button><button id="btnInstallHelp" class="nav-btn" title="Come installo?">❓</button></nav></header>
 <div class="container">
   <div class="card"><h2>Timer</h2>
     <div class="row">
@@ -81,6 +81,26 @@ if(bi){
     bi.style.display='none';
   });
 }
+</script>
+
+
+<script>
+(function(){
+  function isiOS(){ return /iphone|ipad|ipod/i.test(navigator.userAgent); }
+  function isStandalone(){ return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone; }
+  function showHelp(){
+    let msg = '';
+    if(isiOS()){
+      msg = 'iOS non mostra il prompt automatico. Vai su Condividi → Aggiungi a Home.';
+    } else {
+      msg = 'Se non compare il pulsante Installa: assicurati di usare Chrome/Edge, non in anonimo, poi ricarica e riprova. In caso, usa il menu del browser → Aggiungi a schermata Home.';
+    }
+    alert(msg);
+  }
+  const hb = document.getElementById('btnInstallHelp');
+  if(hb && isStandalone()){ hb.style.display='none'; }
+  if(hb){ hb.addEventListener('click', showHelp); }
+})();
 </script>
 
 </body></html>
