@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Fenice • Home (patched)</title>
+<title>Fenice • Home (link robusto)</title>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#0b0e19">
 <link rel="icon" sizes="192x192" href="icon-192.png">
@@ -34,7 +34,7 @@ h1{font-size:18px;margin:0}.container{max-width:960px;margin:0 auto;padding:16px
     <section class="card">
       <h2>📅 Piano 12 settimane (ALL‑IN‑ONE)</h2>
       <p>Dieta + Allenamento + Galleria esercizi con <b>foto CC</b> e video.</p>
-      <a class="btn" id="openPlan" href="./fenice_diet_training_12w_all_ccapi.html">Apri il piano</a>
+      <a class="btn" id="openPlan" href="./fenice_diet_training_12w_all_ccapi.html" onclick="return openPlan(event)">Apri il piano</a>
       <p class="small" id="planFallback" style="display:none"></p>
     </section>
     <section class="card">
@@ -61,20 +61,30 @@ if('serviceWorker' in navigator){
   navigator.serviceWorker.register('sw.js').then(reg=>{document.getElementById('swStatus').textContent='PWA ✓';}).catch(()=>document.getElementById('swStatus').textContent='PWA');
 }
 if(!navigator.onLine){document.getElementById('offlineMsg').style.display='block';}
-// Fallback: costruisce link assoluto se quello relativo non dovesse funzionare in alcuni ambienti
-(function(){
-  const a=document.getElementById('openPlan');
-  const abs=new URL('./fenice_diet_training_12w_all_ccapi.html', location.href).href;
-  a.href=abs;
-  // Mostra il link assoluto se differisce
-  try{
-    if(abs!== './fenice_diet_training_12w_all_ccapi.html'){
-      const p=document.getElementById('planFallback');
-      p.style.display='block';
-      p.innerHTML='Se il pulsante non apre, copia/incolla questo link: <br><span class="small">'+abs+'</span>';
-    }
-  }catch(e){}
-})();
+
+// Multi-fallback opener
+async function openPlan(e){
+  e.preventDefault();
+  const targetFile = 'fenice_diet_training_12w_all_ccapi.html';
+  const candidates = [];
+  // relative
+  candidates.push(new URL('./'+targetFile, location.href).href);
+  // repo root guess (/user/repo/target)
+  const parts = location.pathname.split('/').filter(Boolean);
+  if(parts.length>=2){ candidates.push('/'+parts[0]+'/'+parts[1]+'/'+targetFile); }
+  // absolute same folder
+  candidates.push(location.origin + location.pathname.replace(/\/[^\/]*$/, '/') + targetFile);
+
+  for(const url of candidates){
+    try{ const res = await fetch(url, {method:'HEAD', cache:'no-cache'});
+      if(res.ok){ location.href = url; return false; }
+    }catch(err){}
+  }
+  const pf = document.getElementById('planFallback');
+  pf.style.display='block';
+  pf.innerHTML = 'Non riesco ad aprire il piano automaticamente.<br>Link alternativo (prova a copiarlo nella barra):<br><span class="small">'+candidates[0]+'</span>';
+  return false;
+}
 </script>
 </body>
 </html>
