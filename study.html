@@ -131,6 +131,14 @@ document.getElementById('btnInstallAlways').addEventListener('click', async ()=>
 
 // ----- DATA MODEL -----
 const EXAMS = [
+  { key:'anat', name:'Anatomia Umana', date:'2026-01-08', prereq:null, hours:100,
+    topics:['Osteologia e Artrologia (arti, colonna, cingoli)','Miologia (arti e tronco)',
+            'Neuroanatomia (encefalo, tronco, midollo, vie)',
+            'Splancnologia (digerente, respiratorio)',
+            'Cardiovascolare (cuore e vasi principali)',
+            'Urinario e Genitale',
+            'Endocrino',
+            'Organi di senso e sistema tegumentario'] },
   { key:'istologia', name:'Istologia', date:'2025-09-15', prereq:null, hours:40,
     topics:['Tessuti epiteliali','Connettivo','Cartilagine e osso','Sangue','Muscolare','Nervoso','Organi linfoidi','Microscopia e preparati'] },
   { key:'semchir', name:'Semeiotica Medica e Chirurgica', date:'2025-09-12', prereq:null, hours:50,

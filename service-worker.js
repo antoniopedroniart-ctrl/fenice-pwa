@@ -1,5 +1,5 @@
 
-const CACHE = 'fenice-v12';
+const CACHE = 'fenice-v13';
 const ASSETS = [
   './index.html',
   './fenice_diet_training_12w_all_ccapi.html',
