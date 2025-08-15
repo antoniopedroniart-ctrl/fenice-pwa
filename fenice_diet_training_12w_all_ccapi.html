@@ -1,127 +1,224 @@
-<!doctype html><html lang="it"><head>
+<!doctype html>
+<html lang="it"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Fenice • Dieta 12w + Allenamento + Galleria esercizi (Foto CC)</title>
-<style>:root{--bg:#0f1320;--panel:#12182a;--ink:#e9eef7;--ink2:#9bb0d0;--line:#2c3550;--tab:#1a2033}
+<title>Fenice • Piano completo</title>
+<style>
+:root{--bg:#0f1320;--panel:#12182a;--ink:#e9eef7;--ink2:#9bb0d0;--line:#2c3550}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,sans-serif}
-header{position:sticky;top:0;z-index:50;background:#0b0e19;border-bottom:1px solid var(--line);padding:10px 14px;display:flex;gap:10px;align-items:center}
-h1{font-size:18px;margin:0} nav{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
-nav a{color:var(--ink);text-decoration:none;border:1px solid var(--line);padding:8px 10px;border-radius:10px}
-nav a.active{background:#1a2033}.container{max-width:1100px;margin:0 auto;padding:16px}
-.panel{background:#12182a;border:1px solid #2c3550;border-radius:16px;padding:16px;margin-bottom:16px}
-.muted{color:#9bb0d0}.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px}
-table{width:100%;border-collapse:collapse} th,td{border-bottom:1px solid #222a3d;padding:8px 6px;vertical-align:top} th{text-align:left;color:#9bb0d0}
-.badge{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:2px 8px;opacity:.9}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px} @media(max-width:900px){.grid2{grid-template-columns:1fr}}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}@media(max-width:920px){.grid{grid-template-columns:1fr}}
-.card{background:#0b0e19;border:1px solid #2c3550;border-radius:14px;padding:14px}
-h3{margin:0 0 8px 0} p{margin:6px 0}.small{color:#9bb0d0;font-size:12px}
-a.btn{display:inline-block;margin-top:6px;border:1px solid var(--line);border-radius:10px;padding:6px 10px;text-decoration:none;color:var(--ink)}
-.thumb{width:100%;display:block;border-radius:10px;border:1px solid #2c3550}.cap{font-size:11px;color:#cbd5e1;margin-top:4px}.skel{background:#0f1528;height:140px;border-radius:10px;border:1px solid #2c3550}</style>
+.topbar{position:sticky;top:0;z-index:40;display:flex;justify-content:space-between;align-items:center;gap:12px;background:#0b0e19;border-bottom:1px solid var(--line);padding:10px 14px}
+.brand{font-weight:700}nav{display:flex;gap:8px;flex-wrap:wrap}
+.nav-btn{color:var(--ink);text-decoration:none;border:1px solid var(--line);padding:6px 10px;border-radius:10px}.nav-btn.active{background:#1a2033}
+.container{max-width:1100px;margin:0 auto;padding:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px}
+.btn{display:inline-block;margin-top:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);background:#1a2033;cursor:pointer}
+.small{color:var(--ink2);font-size:12px}
+.table{width:100%;border-collapse:collapse}.table th,.table td{border-bottom:1px solid #222a3d;padding:8px 6px;vertical-align:top}.table th{text-align:left;color:#9bb0d0}
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px}
+.grid-4{display:grid;gap:10px;grid-template-columns:repeat(4,1fr)}@media(max-width:900px){.grid-4{grid-template-columns:1fr 1fr}}
+.counter{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:2px 6px;background:#0b0e19}
+.counter button{border:0;background:#1a2033;color:var(--ink);border-radius:8px;padding:4px 8px;cursor:pointer}
+.counter .val{min-width:22px;text-align:center}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+</style>
 </head><body>
-<header><h1>Fenice — Dieta 12 settimane + Allenamento</h1><nav>
-<a href="#diet" class="tab active" data-target="diet">Dieta</a>
-<a href="#train" class="tab" data-target="train">Allenamento</a>
-<a href="#gallery" class="tab" data-target="gallery">Esercizi (Foto CC)</a>
-<a href="#legend" class="tab" data-target="legend">Legenda</a>
-<a href="#calendar" class="tab" data-target="calendar">Calendari</a></nav></header>
+<header class="topbar">
+  <div class="brand">Fenice</div>
+  <nav>
+    <a class="nav-btn" href="index.html">🏠 Home</a>
+    <a class="nav-btn active" href="fenice_diet_training_12w_all_ccapi.html">📅 Piano</a>
+    <a class="nav-btn" href="tools.html">⚙️ Strumenti</a>
+    <a class="nav-btn" href="#calendar">🗓️ Calendari</a>
+  </nav>
+</header>
 
-<div class="container view" id="diet"><div class="panel">
-<h2>Piano alimentare 12 settimane <span class="badge">4 pasti/giorno</span></h2>
-<p class="muted">Inizio: <span id="start-date">2025-08-11</span>. Orari adattati a ferie/doppi turni/schema standard.</p></div>
-<div id="weeks"></div></div>
+<div class="container">
+  <div class="card"><div class="tabs">
+    <a href="#diet" class="tab active" data-target="diet">Dieta</a>
+    <a href="#train" class="tab" data-target="train">Allenamento</a>
+    <a href="#legend" class="tab" data-target="legend">Legenda</a>
+    <a href="#calendar" class="tab" data-target="calendar">Calendari</a>
+  </div></div>
 
-<div class="container view" id="train" style="display:none"><div class="panel">
-<h2>Allenamento — Upper/Lower (4×/sett)</h2>
-<div class="grid2"><div class="panel"><h3>Video rapidi</h3><ul>
-<li><a class="btn" target="_blank" href="https://www.youtube.com/results?search_query=bench+press+form+powerlifting+cues">Bench Press</a></li>
-<li><a class="btn" target="_blank" href="https://www.youtube.com/results?search_query=back+squat+bracing+depth+high+bar+low+bar">Back Squat</a></li>
-<li><a class="btn" target="_blank" href="https://www.youtube.com/results?search_query=pull+up+scapular+depression+form">Pull-up</a></li>
-<li><a class="btn" target="_blank" href="https://www.youtube.com/results?search_query=overhead+press+bar+path+form">Overhead Press</a></li>
-<li><a class="btn" target="_blank" href="https://www.youtube.com/results?search_query=plank+neutral+spine+form">Plank</a></li>
-<li><a class="btn" target="_blank" href="https://www.youtube.com/results?search_query=biceps+curl+strict+form+no+swing">Biceps Curl</a></li></ul></div>
-<div class="panel"><h3>Progressione</h3><p class="small">RPE 7→9; +2.5–5 kg/sett. se tutte le serie in target. ROM controllato.</p></div></div></div></div>
+  <section id="diet" class="view">
+    <div class="card"><h2>Piano alimentare (12 settimane)</h2>
+      <p class="small">Struttura 4 pasti/die; macro dinamici per Recomp → Cut → Bulk.</p>
+    </div>
+  </section>
 
-<div class="container view" id="gallery" style="display:none"><div class="panel">
-<h2>Galleria esercizi — foto reali (Wikimedia Commons, CC)</h2>
-<div class="grid" id="exgrid"></div>
-<p class="small">Apri “Foto (Wikimedia, CC)” per la pagina completa e verifica la licenza.</p></div></div>
+  <section id="train" class="view" style="display:none">
+    <div class="card"><h2>Allenamento — 4 sedute/sett (Upper/Lower)</h2>
+      <p class="small">Ogni seduta: 2 distretti; per ciascun muscolo 2 esercizi di attivazione generale + 2 di attivazione specifica. Finisher core.</p>
+      <div class="row">
+        <a class="btn" href="#train-upper1">↘ Upper 1</a>
+        <a class="btn" href="#train-lower1">↘ Lower 1</a>
+        <a class="btn" href="#train-upper2">↘ Upper 2</a>
+        <a class="btn" href="#train-lower2">↘ Lower 2</a>
+        <button class="btn" id="resetAll">🗑️ Reset contatori</button>
+      </div>
+      <p class="small">Il reset azzera tutti i contatori salvati in locale (solo per questo dispositivo).</p>
+    </div>
 
-<div class="container view" id="legend" style="display:none"><div class="panel">
-<h2>Legenda</h2><ul>
-<li><b>RPE</b>: sforzo percepito (0–10). RPE 8 ≈ 2 ripetizioni “in canna”.</li>
-<li><b>1RM</b>: massimale su 1 ripetizione.</li>
-<li><b>BF</b>: body fat (percentuale di grasso).</li>
-<li><b>ROM</b>: range di movimento.</li>
-<li><b>MRGE</b>: reflusso gastroesofageo — evitare alimenti acidi.</li>
-<li><b>Macro</b>: Proteine 4 kcal/g, Carbo 4 kcal/g, Grassi 9 kcal/g.</li></ul></div></div>
+    <!-- UPPER 1 -->
+    <div class="card" id="train-upper1"><h3>Upper 1 — Petto & Tricipiti</h3>
+      <table class="table">
+        <thead><tr><th>Esercizio</th><th>Serie × Rip / RPE</th><th>Serie fatte</th></tr></thead>
+        <tbody>
+          <tr><th colspan="3">Petto</th></tr>
+          <tr><td class="mono small" colspan="3">Attivazione generale</td></tr>
+          <tr><td>Push-up</td><td class="mono">3x12-15 @RPE7</td><td><span class="counter" data-key="u1-petto-pushup"><button onclick="dec('u1-petto-pushup')">−</button><span class="val" id="v-u1-petto-pushup">0</span><button onclick="inc('u1-petto-pushup')">+</button></span></td></tr>
+          <tr><td>Cable Fly (alto→basso)</td><td class="mono">3x12-15 @RPE7</td><td><span class="counter" data-key="u1-petto-cablefly"><button onclick="dec('u1-petto-cablefly')">−</button><span class="val" id="v-u1-petto-cablefly">0</span><button onclick="inc('u1-petto-cablefly')">+</button></span></td></tr>
+          <tr><td class="mono small" colspan="3">Attivazione specifica</td></tr>
+          <tr><td>Panca inclinata manubri</td><td class="mono">4x8-10 @RPE8</td><td><span class="counter" data-key="u1-petto-inclinata"><button onclick="dec('u1-petto-inclinata')">−</button><span class="val" id="v-u1-petto-inclinata">0</span><button onclick="inc('u1-petto-inclinata')">+</button></span></td></tr>
+          <tr><td>Chest Press macchina (pausa 1s)</td><td class="mono">3x8-10 @RPE8</td><td><span class="counter" data-key="u1-petto-chestpress"><button onclick="dec('u1-petto-chestpress')">−</button><span class="val" id="v-u1-petto-chestpress">0</span><button onclick="inc('u1-petto-chestpress')">+</button></span></td></tr>
 
-<div class="container view" id="calendar" style="display:none"><div class="panel">
-<h2>Calendari (.ics)</h2><ul>
-<li><a class="btn" href="./Fenice_Work.ics" download>Fenice_Work.ics</a></li>
-<li><a class="btn" href="./Fenice_Training.ics" download>Fenice_Training.ics</a></li>
-<li><a class="btn" href="./Fenice_Study.ics" download>Fenice_Study.ics</a></li>
-<li><a class="btn" href="./Fenice_Classes.ics" download>Fenice_Classes.ics</a></li>
-<li><a class="btn" href="./Fenice_Internship.ics" download>Fenice_Internship.ics</a></li></ul>
-<p class="small">Sottoscrivi via URL per aggiornamenti automatici.</p></div></div>
+          <tr><th colspan="3">Tricipiti</th></tr>
+          <tr><td class="mono small" colspan="3">Attivazione generale</td></tr>
+          <tr><td>Pushdown corda</td><td class="mono">3x12-15 @RPE7</td><td><span class="counter" data-key="u1-tri-pushdown"><button onclick="dec('u1-tri-pushdown')">−</button><span class="val" id="v-u1-tri-pushdown">0</span><button onclick="inc('u1-tri-pushdown')">+</button></span></td></tr>
+          <tr><td>Diamond Push-up</td><td class="mono">2xAMRAP @RPE8</td><td><span class="counter" data-key="u1-tri-diamond"><button onclick="dec('u1-tri-diamond')">−</button><span class="val" id="v-u1-tri-diamond">0</span><button onclick="inc('u1-tri-diamond')">+</button></span></td></tr>
+          <tr><td class="mono small" colspan="3">Attivazione specifica</td></tr>
+          <tr><td>Estensioni sopra la testa</td><td class="mono">3x10-12 @RPE8</td><td><span class="counter" data-key="u1-tri-oh"><button onclick="dec('u1-tri-oh')">−</button><span class="val" id="v-u1-tri-oh">0</span><button onclick="inc('u1-tri-oh')">+</button></span></td></tr>
+          <tr><td>French Press / Skullcrusher</td><td class="mono">3x8-10 @RPE8-9</td><td><span class="counter" data-key="u1-tri-french"><button onclick="dec('u1-tri-french')">−</button><span class="val" id="v-u1-tri-french">0</span><button onclick="inc('u1-tri-french')">+</button></span></td></tr>
+        </tbody>
+      </table>
+      <div class="small">Progressione: target a RPE ≤8 → +2.5–5 kg o +1–2 rip.</div>
+    </div>
+
+    <!-- LOWER 1 -->
+    <div class="card" id="train-lower1"><h3>Lower 1 — Quadricipiti & Polpacci</h3>
+      <table class="table"><thead><tr><th>Esercizio</th><th>Serie × Rip / RPE</th><th>Serie fatte</th></tr></thead><tbody>
+        <tr><th colspan="3">Quadricipiti</th></tr>
+        <tr><td class="mono small" colspan="3">Attivazione generale</td></tr>
+        <tr><td>Leg Extension (3-1-1)</td><td class="mono">3x12-15 @RPE7</td><td><span class="counter" data-key="l1-quad-ext"><button onclick="dec('l1-quad-ext')">−</button><span class="val" id="v-l1-quad-ext">0</span><button onclick="inc('l1-quad-ext')">+</button></span></td></tr>
+        <tr><td>Goblet Squat</td><td class="mono">3x10-12 @RPE7</td><td><span class="counter" data-key="l1-quad-goblet"><button onclick="dec('l1-quad-goblet')">−</button><span class="val" id="v-l1-quad-goblet">0</span><button onclick="inc('l1-quad-goblet')">+</button></span></td></tr>
+        <tr><td class="mono small" colspan="3">Attivazione specifica</td></tr>
+        <tr><td>Back Squat / Safety Bar</td><td class="mono">4x5-8 @RPE8</td><td><span class="counter" data-key="l1-quad-squat"><button onclick="dec('l1-quad-squat')">−</button><span class="val" id="v-l1-quad-squat">0</span><button onclick="inc('l1-quad-squat')">+</button></span></td></tr>
+        <tr><td>Leg Press ROM profondo</td><td class="mono">3x10-12 @RPE8</td><td><span class="counter" data-key="l1-quad-legpress"><button onclick="dec('l1-quad-legpress')">−</button><span class="val" id="v-l1-quad-legpress">0</span><button onclick="inc('l1-quad-legpress')">+</button></span></td></tr>
+
+        <tr><th colspan="3">Polpacci</th></tr>
+        <tr><td class="mono small" colspan="3">Attivazione generale</td></tr>
+        <tr><td>Standing Calf Raise</td><td class="mono">3x12-15 @RPE7</td><td><span class="counter" data-key="l1-calf-stand"><button onclick="dec('l1-calf-stand')">−</button><span class="val" id="v-l1-calf-stand">0</span><button onclick="inc('l1-calf-stand')">+</button></span></td></tr>
+        <tr><td>Seated Calf Raise</td><td class="mono">3x12-15 @RPE7</td><td><span class="counter" data-key="l1-calf-seated"><button onclick="dec('l1-calf-seated')">−</button><span class="val" id="v-l1-calf-seated">0</span><button onclick="inc('l1-calf-seated')">+</button></span></td></tr>
+        <tr><td class="mono small" colspan="3">Attivazione specifica</td></tr>
+        <tr><td>Standing Calf Raise pesante</td><td class="mono">4x8-10 @RPE8</td><td><span class="counter" data-key="l1-calf-standH"><button onclick="dec('l1-calf-standH')">−</button><span class="val" id="v-l1-calf-standH">0</span><button onclick="inc('l1-calf-standH')">+</button></span></td></tr>
+        <tr><td>Seated Calf Raise allung. 2s</td><td class="mono">3x10-12 @RPE8</td><td><span class="counter" data-key="l1-calf-seatedS"><button onclick="dec('l1-calf-seatedS')">−</button><span class="val" id="v-l1-calf-seatedS">0</span><button onclick="inc('l1-calf-seatedS')">+</button></span></td></tr>
+      </tbody></table>
+      <div class="small">Progressione: target a RPE ≤8 → +2.5–5 kg o +1–2 rip.</div>
+    </div>
+
+    <!-- UPPER 2 -->
+    <div class="card" id="train-upper2"><h3>Upper 2 — Spalle & Bicipiti</h3>
+      <table class="table"><thead><tr><th>Esercizio</th><th>Serie × Rip / RPE</th><th>Serie fatte</th></tr></thead><tbody>
+        <tr><th colspan="3">Spalle</th></tr>
+        <tr><td class="mono small" colspan="3">Attivazione generale</td></tr>
+        <tr><td>Alzate laterali</td><td class="mono">3x15-20 @RPE7</td><td><span class="counter" data-key="u2-sp-ll"><button onclick="dec('u2-sp-ll')">−</button><span class="val" id="v-u2-sp-ll">0</span><button onclick="inc('u2-sp-ll')">+</button></span></td></tr>
+        <tr><td>Face Pull</td><td class="mono">3x12-15 @RPE7</td><td><span class="counter" data-key="u2-sp-fp"><button onclick="dec('u2-sp-fp')">−</button><span class="val" id="v-u2-sp-fp">0</span><button onclick="inc('u2-sp-fp')">+</button></span></td></tr>
+        <tr><td class="mono small" colspan="3">Attivazione specifica</td></tr>
+        <tr><td>Overhead Press</td><td class="mono">4x5-8 @RPE8</td><td><span class="counter" data-key="u2-sp-ohp"><button onclick="dec('u2-sp-ohp')">−</button><span class="val" id="v-u2-sp-ohp">0</span><button onclick="inc('u2-sp-ohp')">+</button></span></td></tr>
+        <tr><td>Alzate laterali ai cavi</td><td class="mono">3x12-15 @RPE8</td><td><span class="counter" data-key="u2-sp-llc"><button onclick="dec('u2-sp-llc')">−</button><span class="val" id="v-u2-sp-llc">0</span><button onclick="inc('u2-sp-llc')">+</button></span></td></tr>
+
+        <tr><th colspan="3">Bicipiti</th></tr>
+        <tr><td class="mono small" colspan="3">Attivazione generale</td></tr>
+        <tr><td>Curl manubri alternati</td><td class="mono">3x12-15 @RPE7</td><td><span class="counter" data-key="u2-bi-alt"><button onclick="dec('u2-bi-alt')">−</button><span class="val" id="v-u2-bi-alt">0</span><button onclick="inc('u2-bi-alt')">+</button></span></td></tr>
+        <tr><td>Curl martello</td><td class="mono">3x10-12 @RPE7</td><td><span class="counter" data-key="u2-bi-ham"><button onclick="dec('u2-bi-ham')">−</button><span class="val" id="v-u2-bi-ham">0</span><button onclick="inc('u2-bi-ham')">+</button></span></td></tr>
+        <tr><td class="mono small" colspan="3">Attivazione specifica</td></tr>
+        <tr><td>Curl bilanciere / EZ</td><td class="mono">4x6-10 @RPE8</td><td><span class="counter" data-key="u2-bi-ez"><button onclick="dec('u2-bi-ez')">−</button><span class="val" id="v-u2-bi-ez">0</span><button onclick="inc('u2-bi-ez')">+</button></span></td></tr>
+        <tr><td>Incline DB Curl</td><td class="mono">3x10-12 @RPE8</td><td><span class="counter" data-key="u2-bi-incline"><button onclick="dec('u2-bi-incline')">−</button><span class="val" id="v-u2-bi-incline">0</span><button onclick="inc('u2-bi-incline')">+</button></span></td></tr>
+      </tbody></table>
+      <div class="small">Progressione: target a RPE ≤8 → +2.5–5 kg o +1–2 rip.</div>
+    </div>
+
+    <!-- LOWER 2 -->
+    <div class="card" id="train-lower2"><h3>Lower 2 — Femorali & Glutei</h3>
+      <table class="table"><thead><tr><th>Esercizio</th><th>Serie × Rip / RPE</th><th>Serie fatte</th></tr></thead><tbody>
+        <tr><th colspan="3">Femorali</th></tr>
+        <tr><td class="mono small" colspan="3">Attivazione generale</td></tr>
+        <tr><td>Leg Curl sdraiato</td><td class="mono">3x12-15 @RPE7</td><td><span class="counter" data-key="l2-ham-curl"><button onclick="dec('l2-ham-curl')">−</button><span class="val" id="v-l2-ham-curl">0</span><button onclick="inc('l2-ham-curl')">+</button></span></td></tr>
+        <tr><td>SL RDL manubri</td><td class="mono">3x10-12 @RPE7</td><td><span class="counter" data-key="l2-ham-slrdl"><button onclick="dec('l2-ham-slrdl')">−</button><span class="val" id="v-l2-ham-slrdl">0</span><button onclick="inc('l2-ham-slrdl')">+</button></span></td></tr>
+        <tr><td class="mono small" colspan="3">Attivazione specifica</td></tr>
+        <tr><td>Romanian Deadlift</td><td class="mono">4x6-8 @RPE8</td><td><span class="counter" data-key="l2-ham-rdl"><button onclick="dec('l2-ham-rdl')">−</button><span class="val" id="v-l2-ham-rdl">0</span><button onclick="inc('l2-ham-rdl')">+</button></span></td></tr>
+        <tr><td>Leg Curl seduto (pausa 1s)</td><td class="mono">3x10-12 @RPE8</td><td><span class="counter" data-key="l2-ham-seated"><button onclick="dec('l2-ham-seated')">−</button><span class="val" id="v-l2-ham-seated">0</span><button onclick="inc('l2-ham-seated')">+</button></span></td></tr>
+
+        <tr><th colspan="3">Glutei</th></tr>
+        <tr><td class="mono small" colspan="3">Attivazione generale</td></tr>
+        <tr><td>Glute Bridge</td><td class="mono">3x12-15 @RPE7</td><td><span class="counter" data-key="l2-gl-bridge"><button onclick="dec('l2-gl-bridge')">−</button><span class="val" id="v-l2-gl-bridge">0</span><button onclick="inc('l2-gl-bridge')">+</button></span></td></tr>
+        <tr><td>Abductor Machine / Banda</td><td class="mono">3x15-20 @RPE7</td><td><span class="counter" data-key="l2-gl-abd"><button onclick="dec('l2-gl-abd')">−</button><span class="val" id="v-l2-gl-abd">0</span><button onclick="inc('l2-gl-abd')">+</button></span></td></tr>
+        <tr><td class="mono small" colspan="3">Attivazione specifica</td></tr>
+        <tr><td>Hip Thrust</td><td class="mono">4x6-10 @RPE8</td><td><span class="counter" data-key="l2-gl-hipthrust"><button onclick="dec('l2-gl-hipthrust')">−</button><span class="val" id="v-l2-gl-hipthrust">0</span><button onclick="inc('l2-gl-hipthrust')">+</button></span></td></tr>
+        <tr><td>Bulgarian Split Squat</td><td class="mono">3x8-12 @RPE8</td><td><span class="counter" data-key="l2-gl-bulgarian"><button onclick="dec('l2-gl-bulgarian')">−</button><span class="val" id="v-l2-gl-bulgarian">0</span><button onclick="inc('l2-gl-bulgarian')">+</button></span></td></tr>
+      </tbody></table>
+      <div class="small">Progressione: target a RPE ≤8 → +2.5–5 kg o +1–2 rip.</div>
+    </div>
+
+    <!-- CORE finisher -->
+    <div class="card" id="train-core"><h3>Core — finisher (ruota a sedute)</h3>
+      <table class="table"><thead><tr><th>Esercizio</th><th>Serie × Rip / Tempo</th><th>Serie fatte</th></tr></thead><tbody>
+        <tr><td>Plank RKC</td><td class="mono">3x20-30s</td><td><span class="counter" data-key="core-plankrkc"><button onclick="dec('core-plankrkc')">−</button><span class="val" id="v-core-plankrkc">0</span><button onclick="inc('core-plankrkc')">+</button></span></td></tr>
+        <tr><td>Dead Bug</td><td class="mono">3x8-10/lato</td><td><span class="counter" data-key="core-deadbug"><button onclick="dec('core-deadbug')">−</button><span class="val" id="v-core-deadbug">0</span><button onclick="inc('core-deadbug')">+</button></span></td></tr>
+        <tr><td>Hollow Body Hold</td><td class="mono">3x15-25s</td><td><span class="counter" data-key="core-hollow"><button onclick="dec('core-hollow')">−</button><span class="val" id="v-core-hollow">0</span><button onclick="inc('core-hollow')">+</button></span></td></tr>
+        <tr><td>Cable Pallof Press</td><td class="mono">3x10-12/lato</td><td><span class="counter" data-key="core-pallof"><button onclick="dec('core-pallof')">−</button><span class="val" id="v-core-pallof">0</span><button onclick="inc('core-pallof')">+</button></span></td></tr>
+        <tr><td>Ab Wheel Rollout</td><td class="mono">3x6-10</td><td><span class="counter" data-key="core-abwheel"><button onclick="dec('core-abwheel')">−</button><span class="val" id="v-core-abwheel">0</span><button onclick="inc('core-abwheel')">+</button></span></td></tr>
+        <tr><td>Side Plank</td><td class="mono">3x20-30s/lato</td><td><span class="counter" data-key="core-sideplank"><button onclick="dec('core-sideplank')">−</button><span class="val" id="v-core-sideplank">0</span><button onclick="inc('core-sideplank')">+</button></span></td></tr>
+      </tbody></table>
+      <div class="small">Scegli 2–3 esercizi (8–12′) e ruota ogni 2 settimane.</div>
+    </div>
+  </section>
+
+  <section id="legend" class="view" style="display:none">
+    <div class="card"><h2>Legenda</h2>
+      <ul>
+        <li><b>RPE</b> 7–9 = ripetizioni in riserva 3–1.</li>
+        <li><b>Progressione</b>: target a RPE ≤8 → +2.5–5 kg o +1–2 rip.</li>
+        <li><b>ROM</b>: controllo in discesa 2–3″, pausa se indicata.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="calendar" class="view" style="display:none">
+    <div class="card"><h2>Calendari (.ics)</h2>
+      <p>
+        <a class="btn" href="./Fenice_Work.ics" download>Work</a>
+        <a class="btn" href="./Fenice_Training.ics" download>Training</a>
+        <a class="btn" href="./Fenice_Study.ics" download>Study</a>
+        <a class="btn" href="./Fenice_Classes.ics" download>Classes</a>
+        <a class="btn" href="./Fenice_Internship.ics" download>Internship</a>
+      </p>
+    </div>
+  </section>
+</div>
 
 <script>
+// Tab router — apre automaticamente Allenamento se l'hash è #train-*
 const tabs=[...document.querySelectorAll('.tab')], views=[...document.querySelectorAll('.view')];
 function show(id){views.forEach(v=>v.style.display=(v.id===id)?'':'none');tabs.forEach(t=>t.classList.toggle('active',t.dataset.target===id));}
-function route(h){const id=(h||'#diet').replace('#','');show(id);} 
-tabs.forEach(t=>t.addEventListener('click',e=>{e.preventDefault();const id=t.dataset.target;history.pushState(null,'','#'+id);route('#'+id)})); 
+function route(h){
+  const frag=(h||'#diet');
+  const id=frag.startsWith('#train-') ? 'train' : (frag.replace('#','')||'diet');
+  show(id);
+  if(frag.startsWith('#train-')){ const el=document.querySelector(frag); if(el) el.scrollIntoView({behavior:'smooth'}); }
+}
+tabs.forEach(t=>t.addEventListener('click',e=>{e.preventDefault();const id=t.dataset.target;history.pushState(null,'','#'+id);route('#'+id)}));
 addEventListener('hashchange',()=>route(location.hash)); document.addEventListener('DOMContentLoaded',()=>route(location.hash||'#diet'));
 
-const START=new Date('2025-08-11'), WEEKS=12;
-function italianDay(d){return ['Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato','Domenica'][d.getDay()===0?6:d.getDay()-1]}
-function fmt(d){return d.toISOString().slice(0,10);} 
-function between(d,y,m,a,b){const x=new Date(d);return x>=new Date(y,m-1,a)&&x<=new Date(y,m-1,b)}
-function mealsOfDay(d){
-  if(between(d,2025,8,11,20)) return [['07:00','Colazione','Avena 80g + latte scremato 200ml + banana'],['11:00','Spuntino','Yogurt greco 0% 170g + 15 mandorle'],['19:30','Cena','Riso basmati 100g + tacchino 180g + verdure crude + 15g EVO'],['22:30','Spuntino','Whey 30g + gallette 30g']];
-  if(between(d,2025,8,21,31)){const dinner=(fmt(d)==='2025-08-25'?'19:30':'16:30');return [['06:30','Colazione','Pane integrale 80g + albumi 200g + 1 frutto'],['10:00','Spuntino','Fiocchi di latte 200g + 1 mela'],[dinner,'Cena','Patate 450g + pollo 180g + insalata + 15g EVO'],['22:30','Spuntino','Whey 30g + 15g noci']];}
-  if(d.getDay()===1) return [['07:00','Colazione','Avena 80g + acqua + 1 banana'],['11:30','Spuntino','Yogurt greco 0% 170g + 20g miele'],['19:30','Cena','Farro 110g + tonno 120g + verdure crude + 15g EVO'],['22:30','Spuntino','Whey 30g + 10g burro d\'arachidi']];
-  if([2,3,4,5].includes(d.getDay())) return [['06:45','Colazione','Pane segale 90g + ricotta magra 150g + marmellata 20g'],['11:00','Spuntino','Fiocchi di latte 200g + 15 mandorle'],['17:00','Cena','Riso integrale 100g + pollo 180g + verdure crude + 15g EVO'],['22:30','Spuntino','Whey 30g + gallette 30g']];
-  return [['06:30','Colazione','Avena 80g + latte vegetale 200ml + 1 frutto'],['10:00','Spuntino','Yogurt 0% 170g + 15 mandorle'],['16:30','Cena','Orzo 110g + manzo magro 180g + insalata + 15g EVO'],['22:30','Spuntino','Whey 30g + 10g burro d\'arachidi']];
-}
-function macros(kcal, phase){const P=(phase==='Recomp')?0.28:(phase==='Cut')?0.33:0.25, C=(phase==='Recomp')?0.46:(phase==='Cut')?0.38:0.52, F=(phase==='Recomp')?0.26:(phase==='Cut')?0.29:0.23;
-  const p=Math.round(kcal*P/4), c=Math.round(kcal*C/4), f=Math.round(kcal*F/9); return `P${p} C${c} F${f}`;}
-function kcalsForDay(d){const dayIndex=Math.floor((d-START)/(1000*3600*24)), w=Math.floor(dayIndex/7)+1; let base=(w<=4)?2600:(w<=8)?2300:3000;
-  if([2,4,6,0].includes(d.getDay())) base+=100; if(d.getDay()===1) base-=100; return base;}
-function phaseOfWeek(w){return (w<=4)?'Recomp':(w<=8)?'Cut':'Bulk';}
-function renderWeeks(){const weeks=document.getElementById('weeks'); weeks.innerHTML=''; document.getElementById('start-date').textContent=START.toISOString().slice(0,10);
-  for(let w=1; w<=WEEKS; w++){const phase=phaseOfWeek(w), base=(phase==='Recomp')?2600:(phase==='Cut')?2300:3000; const card=document.createElement('div'); card.className='panel'; card.innerHTML=`<h3>Settimana ${w} <span class="badge">${phase} • ~${base} kcal/d</span></h3>`;
-    const t=document.createElement('table'); t.innerHTML='<thead><tr><th>Giorno</th><th>Pasto</th><th>Orario</th><th>Contenuto</th><th>Macro stimati</th></tr></thead>'; const tb=document.createElement('tbody');
-    for(let d=0; d<7; d++){const dd=new Date(START.getTime()+((w-1)*7+d)*86400000); const M=mealsOfDay(dd); const kcal=kcalsForDay(dd); const splits=[0.30,0.15,0.40,0.15];
-      for(let m=0;m<M.length;m++){const tr=document.createElement('tr'); const [hh, name, desc]=M[m]; const mk=Math.round(kcal*splits[m]); const mm=macros(mk, phase);
-        tr.innerHTML=(m===0?`<td rowspan="4"><b>${italianDay(dd)}</b><br><small class="muted">${dd.toISOString().slice(0,10)}</small></td>`:'')+`<td>${name}</td><td>${hh}</td><td>${desc}</td><td class="mono">${mk} kcal · ${mm}</td>`; tb.appendChild(tr);}}
-    t.appendChild(tb); card.appendChild(t); weeks.appendChild(card);}}
-renderWeeks();
+// Counters (localStorage)
+function key(k){return 'fenice:set:'+k;}
+function read(k){return parseInt(localStorage.getItem(key(k))||'0',10)}
+function write(k,v){localStorage.setItem(key(k), String(v))}
+function render(k){const el=document.getElementById('v-'+k); if(el) el.textContent = read(k)}
+function inc(k){const v=read(k)+1; write(k,v); render(k)}
+function dec(k){const v=Math.max(0,read(k)-1); write(k,v); render(k)}
+document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('.counter').forEach(c=>render(c.dataset.key))});
 
-// Galleria esercizi con thumbnails CC via Wikimedia API
-const EX=[["Bench Press (Panca piana)","Petto, tricipiti, deltoidi ant","Piedi stabili, scapole addotte/depresse, trai una linea verticale sul petto.","bench press gym"],
-["Pull-up / Lat Pulldown (Trazioni / Lat machine)","Dorsali, bicipiti","Depressione scapole prima di tirare, mento oltre sbarra, no slanci.","pull up exercise"],
-["Barbell Row / Seated Row (Rematore)","Dorsali, romboidi","Core in bracing, gomiti verso il fianco, ferma al busto.","barbell row"],
-["Lateral Raises (Alzate laterali)","Deltoidi laterali","Polsi neutri, leggera intrarotazione, trai con il gomito.","lateral raise dumbbell"],
-["Biceps Curl (Curl bicipiti)","Bicipiti","Gomiti fermi, spalle basse, pieno ROM controllato.","biceps curl"],
-["Triceps Pushdown (Pushdown)","Tricipiti","Gomiti bloccati al fianco, completa estensione controllata.","triceps pushdown cable"],
-["Back Squat (Squat)","Quadricipiti, glutei, core","Bracing 360°, ginocchia seguono la punta del piede, profondità coerente.","barbell back squat"],
-["Romanian Deadlift (Stacco rumeno)","Femorali, glutei","Anca indietro, tibie verticali, barra vicina al corpo.","romanian deadlift"],
-["Lunges (Affondi)","Quadricipiti, glutei","Passo lungo, ginocchio dietro verso il suolo, busto alto.","lunge exercise"],
-["Calf Raises (Polpacci)","Gastrocnemio, soleo","Pieno allungamento e contrazione in alto, no rimbalzo.","calf raise machine"],
-["Core — Plank","Addome profondo","Colonna neutra, glutei contratti, scapole attive.","plank exercise"],
-["Incline Bench Press (Panca inclinata)","Petto alto, deltoidi ant, tricipiti","Scapole addotte, trai al petto alto, polsi neutri.","incline bench press"],
-["Machine Row (Rematore macchina)","Dorsali, romboidi","Spalle giù, petto alto, ferma alle costole.","seated row machine"],
-["Overhead Press (Lento avanti)","Deltoidi, tricipiti","Glutei stretti, core in bracing, trai vicino alla linea del volto.","overhead press"],
-["Pullover (Manubrio/Macchina)","Gran dorsale, petto","Coste giù, trai con il dorso, arco controllato.","dumbbell pullover"],
-["Biceps Curl (variante)","Bicipiti","Varia 12–15 rip, tempo controllato.","biceps curl dumbbell"],
-["French Press / Skullcrusher","Tricipiti","Gomiti stretti, arco controllato, evita stress ai polsi.","skullcrusher lying triceps extension"],
-["Deadlift / Varianti (Stacco)","Catena posteriore","Piedi sotto la barra, dorsale attivo, spingi il pavimento.","deadlift"],
-["Leg Press","Quadricipiti, glutei","Schiena appoggiata, ROM profondo senza stacco lombare.","leg press"],
-["Leg Curl","Femorali","Controllo eccentrico, no slanci.","leg curl machine"],
-["Calf Raises (var.)","Polpacci","Pausa in alto, ROM completo.","standing calf raise"],
-["Core — Hollow Hold","Addome profondo","Coste giù, zona lombare in appoggio.","hollow body hold"]];
-
-const grid=document.getElementById('exgrid');
-function renderExerciseCard(ex,thumb,title,filepage){const [name,muscles,cues,query]=ex;const wikSearch=`https://commons.wikimedia.org/w/index.php?search=${encodeURIComponent(query)}+&title=Special%3ASearch&ns6=1&ns14=1&filemime=image%2Fjpeg%2Cimage%2Fpng&advanced=1&license=cc&move=1`;const yt=`https://www.youtube.com/results?search_query=${encodeURIComponent(query)}+form+technique`;const img=thumb?`<img class="thumb" src="${thumb}" alt="${title||name}">`:`<div class="skel"></div>`;const cap=filepage?`<div class="cap"><a href="${filepage}" target="_blank" rel="noopener">Fonte: Wikimedia Commons</a></div>`:'';const el=document.createElement('section');el.className='card';el.innerHTML=`<h3>${name}</h3>${img}${cap}<p class="small"><b>Muscoli:</b> ${muscles}</p><p class="small"><b>Cues:</b> ${cues}</p><p><a class="btn" target="_blank" href="${wikSearch}">📷 Foto (Wikimedia, CC)</a> <a class="btn" target="_blank" href="${yt}">▶️ Video (YouTube)</a></p>`;grid.appendChild(el);}
-async function fetchThumbForQuery(query){const endpoint='https://commons.wikimedia.org/w/api.php';const params=new URLSearchParams({action:'query',format:'json',origin:'*',prop:'imageinfo',generator:'search',gsrlimit:'1',gsrsearch:query,iiprop:'url|extmetadata',iiurlwidth:'600'});const url=`${endpoint}?${params.toString()}`;try{const res=await fetch(url);const data=await res.json();if(!data.query||!data.query.pages)return{thumb:null,title:null,filepage:null};const page=Object.values(data.query.pages)[0];if(!page||!page.imageinfo||!page.imageinfo[0])return{thumb:null,title:page?.title||null,filepage:page?`https://commons.wikimedia.org/wiki/${encodeURIComponent(page.title)}`:null};const ii=page.imageinfo[0];const thumb=ii.thumburl||ii.url;const title=page.title||'';const filepage=ii.descriptionshorturl||`https://commons.wikimedia.org/wiki/${encodeURIComponent(page.title)}`;return{thumb,title,filepage};}catch(e){return{thumb:null,title:null,filepage:null};}}
-(async function(){for(const ex of EX){renderExerciseCard(ex,null,null,null);}grid.innerHTML='';for(const ex of EX){const {thumb,title,filepage}=await fetchThumbForQuery(ex[3]);renderExerciseCard(ex,thumb,title,filepage);}})();
-</script></body></html>
+// Reset contatori
+document.getElementById('resetAll').addEventListener('click',()=>{
+  if(!confirm('Confermi il reset di TUTTI i contatori su questo dispositivo?')) return;
+  const keys = Object.keys(localStorage);
+  keys.forEach(k=>{ if(k.startsWith('fenice:set:')) localStorage.removeItem(k); });
+  // Re-render valori a 0
+  document.querySelectorAll('.counter').forEach(c=>{
+    const id = c.dataset.key; const el = document.getElementById('v-'+id);
+    if(el) el.textContent = '0';
+  });
+  alert('Contatori azzerati.');
+});
+</script>
+</body></html>

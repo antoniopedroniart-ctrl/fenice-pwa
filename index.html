@@ -1,66 +1,86 @@
-<!doctype html><html lang="it"><head>
+<!doctype html>
+<html lang="it"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Fenice • Home</title>
-<link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#0b0e19">
-<link rel="icon" sizes="192x192" href="icon-192.png">
-<link rel="apple-touch-icon" href="icon-192.png">
-<!-- iOS standalone meta -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="apple-touch-icon" href="icon-192.png">
-<!-- Splash -->
-<link rel="apple-touch-startup-image" href="splash-1284x2778.png" media="(device-width:428px) and (device-height:926px) and (-webkit-device-pixel-ratio:3) and (orientation:portrait)">
-<link rel="apple-touch-startup-image" href="splash-1170x2532.png" media="(device-width:390px) and (device-height:844px) and (-webkit-device-pixel-ratio:3) and (orientation:portrait)">
-<link rel="apple-touch-startup-image" href="splash-1125x2436.png" media="(device-width:375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) and (orientation:portrait)">
-<link rel="apple-touch-startup-image" href="splash-828x1792.png" media="(device-width:414px) and (device-height:896px) and (-webkit-device-pixel-ratio:2) and (orientation:portrait)">
-<link rel="apple-touch-startup-image" href="splash-750x1334.png" media="(device-width:375px) and (device-height:667px) and (-webkit-device-pixel-ratio:2) and (orientation:portrait)">
-<link rel="apple-touch-startup-image" href="splash-640x1136.png" media="(device-width:320px) and (device-height:568px) and (-webkit-device-pixel-ratio:2) and (orientation:portrait)">
-
 <style>
 :root{--bg:#0f1320;--panel:#12182a;--ink:#e9eef7;--ink2:#9bb0d0;--line:#2c3550}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,sans-serif}
-header{position:sticky;top:0;z-index:50;background:#0b0e19;border-bottom:1px solid var(--line);padding:12px 16px;display:flex;align-items:center;gap:12px}
-h1{font-size:18px;margin:0}.container{max-width:960px;margin:0 auto;padding:16px}
-.grid{display:grid;gap:12px;grid-template-columns:repeat(3,1fr)}@media(max-width:900px){.grid{grid-template-columns:1fr}}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}
-.card h2{margin:0 0 8px 0;font-size:18px}
+.topbar{position:sticky;top:0;z-index:40;display:flex;justify-content:space-between;align-items:center;gap:12px;background:#0b0e19;border-bottom:1px solid var(--line);padding:10px 14px}
+.brand{font-weight:700}nav{display:flex;gap:8px;flex-wrap:wrap}
+.nav-btn{color:var(--ink);text-decoration:none;border:1px solid var(--line);padding:6px 10px;border-radius:10px}.nav-btn.active{background:#1a2033}
+.container{max-width:1100px;margin:0 auto;padding:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(2,1fr)}@media(max-width:900px){.grid{grid-template-columns:1fr}}
 .btn{display:inline-block;margin-top:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);background:#1a2033}
 .small{color:var(--ink2);font-size:12px}
-.notice{background:#101424;border-left:4px solid #3b82f6;padding:10px 12px;border-radius:8px;margin-bottom:12px}
-.footer{opacity:.8;color:var(--ink2);font-size:12px;text-align:center;padding:16px}
-.badge{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:2px 8px;opacity:.9}
-</style></head><body>
-<header><h1>Fenice — Home</h1><span class="badge" id="swStatus">PWA</span></header>
+.tile{display:flex;justify-content:space-between;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:4px 10px;background:#0b0e19;font-size:12px}
+.chip .dot{font-size:14px}
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px}
+</style>
+</head><body>
+<header class="topbar">
+  <div class="brand">Fenice</div>
+  <nav>
+    <a class="nav-btn active" href="index.html">🏠 Home</a>
+    <a class="nav-btn" href="fenice_diet_training_12w_all_ccapi.html">📅 Piano</a>
+    <a class="nav-btn" href="tools.html">⚙️ Strumenti</a>
+    <a class="nav-btn" href="fenice_diet_training_12w_all_ccapi.html#calendar">🗓️ Calendari</a>
+  </nav>
+</header>
+
 <div class="container">
-  <div class="notice" id="offlineMsg" style="display:none">Sei offline.</div>
-  <div class="grid">
-    <section class="card">
-      <h2>📅 Piano 12 settimane (ALL‑IN‑ONE)</h2>
-      <p>Dieta + Allenamento + Galleria esercizi con <b>foto CC</b> e video.</p>
-      <a class="btn" id="openPlan" href="./fenice_diet_training_12w_all_ccapi.html" onclick="return openPlan(event)">Apri il piano</a>
-      <p class="small" id="planFallback" style="display:none"></p>
-    </section>
-    <section class="card">
-      <h2>🗓️ Calendari (.ics)</h2>
-      <ul class="small">
-        <li><a href="./Fenice_Work.ics" download>Fenice_Work.ics</a></li>
-        <li><a href="./Fenice_Training.ics" download>Fenice_Training.ics</a></li>
-        <li><a href="./Fenice_Study.ics" download>Fenice_Study.ics</a></li>
-        <li><a href="./Fenice_Classes.ics" download>Fenice_Classes.ics</a></li>
-        <li><a href="./Fenice_Internship.ics" download>Fenice_Internship.ics</a></li>
-      </ul>
-    </section>
-    <section class="card">
-      <h2>⚙️ Strumenti</h2>
-      <a class="btn" href="./tools.html">Apri strumenti</a>
-      <p class="small">Timer + Forza aggiornamento cache.</p>
-    </section>
+  <div class="card">
+    <h2>📅 Piano 12 settimane (ALL-IN-ONE)</h2>
+    <p>Dieta + Allenamento + Galleria esercizi con <b>foto CC</b> e video.</p>
+    <a class="btn" href="fenice_diet_training_12w_all_ccapi.html">Apri il piano</a>
+  </div>
+
+  <div class="card">
+    <h3>🏋️‍♂️ Overview allenamenti</h3>
+    <div class="grid" id="tiles">
+      <a class="card tile" href="fenice_diet_training_12w_all_ccapi.html#train-upper1">
+        <div><b>Upper 1</b><div class="small">Petto · Tricipiti</div></div>
+        <span class="chip"><span class="dot" id="b-u1">🔵</span><span id="t-u1">–</span></span>
+      </a>
+      <a class="card tile" href="fenice_diet_training_12w_all_ccapi.html#train-lower1">
+        <div><b>Lower 1</b><div class="small">Quadricipiti · Polpacci</div></div>
+        <span class="chip"><span class="dot" id="b-l1">🔵</span><span id="t-l1">–</span></span>
+      </a>
+      <a class="card tile" href="fenice_diet_training_12w_all_ccapi.html#train-upper2">
+        <div><b>Upper 2</b><div class="small">Spalle · Bicipiti</div></div>
+        <span class="chip"><span class="dot" id="b-u2">🔵</span><span id="t-u2">–</span></span>
+      </a>
+      <a class="card tile" href="fenice_diet_training_12w_all_ccapi.html#train-lower2">
+        <div><b>Lower 2</b><div class="small">Femorali · Glutei</div></div>
+        <span class="chip"><span class="dot" id="b-l2">🔵</span><span id="t-l2">–</span></span>
+      </a>
+    </div>
+    <p class="small">Badge: 🟢 Oggi · 🟡 Domani · 🔵 Altri giorni.</p>
   </div>
 </div>
-<div class="footer">© Fenice — PWA offline.</div>
+
 <script>
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').then(function(){document.getElementById('swStatus').textContent='PWA ✓';}).catch(function(){document.getElementById('swStatus').textContent='PWA';});}
-if(!navigator.onLine){document.getElementById('offlineMsg').style.display='block';}
-async function openPlan(e){e.preventDefault();const target='fenice_diet_training_12w_all_ccapi.html';const c=[new URL('./'+target,location.href).href];const parts=location.pathname.split('/').filter(Boolean);if(parts.length>=2){c.push('/'+parts[0]+'/'+parts[1]+'/'+target);}c.push(location.origin+location.pathname.replace(/\/[^\/]*$/, '/')+target);for(const u of c){try{const r=await fetch(u,{method:'HEAD',cache:'no-cache'});if(r.ok){location.href=u;return false;}}catch(e){}}const pf=document.getElementById('planFallback');pf.style.display='block';pf.innerHTML='Non riesco ad aprire il piano. Link: <br><span class="small">'+c[0]+'</span>';return false;}
-</script></body></html>
+// Mappa semplice (JS: 0=Dom...6=Sab)
+const schedule = {1:null, 2:'u1', 3:'l1', 4:'u2', 5:null, 6:'l2', 0:null};
+const ids = {u1:['b-u1','t-u1'], l1:['b-l1','t-l1'], u2:['b-u2','t-u2'], l2:['b-l2','t-l2']};
+const today = new Date().getDay(), tomorrow = (today+1)%7;
+const tk = schedule[today], nk = schedule[tomorrow];
+
+function setBadge(key, dot, text){
+  const idsMap = ids[key] || []; const b = document.getElementById(idsMap[0]); const t = document.getElementById(idsMap[1]);
+  if(b && t){ b.textContent = dot; t.textContent = text; }
+}
+if(tk) setBadge(tk,'🟢','Oggi');
+if(nk && nk!==tk) setBadge(nk,'🟡','Domani');
+['u1','l1','u2','l2'].forEach(k=>{
+  const tid = ids[k][1]; const t = document.getElementById(tid);
+  if(t && t.textContent==='–'){
+    const dn=['Domenica','Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato'];
+    const d = Object.keys(schedule).find(x=>schedule[x]===k);
+    if(d!=null) t.textContent = dn[parseInt(d,10)];
+  }
+});
+</script>
+</body></html>
