@@ -1,5 +1,7 @@
 <!doctype html>
 <html lang="it"><head>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
 <link rel="manifest" href="./manifest.json">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -31,8 +33,27 @@ background:#0b0e19;border-bottom:1px solid var(--line);padding:10px 14px}
 .meal{display:flex;gap:8px;align-items:center}
 .badge-muscle{font-size:12px;border:1px solid var(--line);border-radius:8px;padding:2px 6px;margin-left:8px;opacity:.9}
 hr.sep{border:none;border-top:1px dashed #2c3550;margin:10px 0} #t{font-size:42px;margin:12px}button.btn{cursor:pointer}</style>
+
+<style>
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:99}
+.modal .box{background:#12182a;border:1px solid #2c3550;color:#e9eef7;border-radius:14px;max-width:520px;padding:16px}
+.modal .box h3{margin:0 0 8px 0}
+.modal .close{float:right;cursor:pointer}
+</style>
+
+
+<style>
+.toast-update{position:fixed;left:12px;right:12px;bottom:12px;z-index:100;
+  background:#12182a;color:#e9eef7;border:1px solid #2c3550;border-radius:12px;
+  padding:12px;display:none;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.toast-update .row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.toast-update .msg{font-size:14px}
+.toast-update .actions{display:flex;gap:8px}
+.toast-update .btn{border:1px solid #2c3550;background:#1a2033;color:#e9eef7;border-radius:10px;padding:6px 10px;cursor:pointer}
+</style>
+
 </head><body>
-<header class="topbar"><div class="brand">Fenice</div><nav><a class="nav-btn" href="index.html">🏠 Home</a><a class="nav-btn" href="fenice_diet_training_12w_all_ccapi.html">📅 Piano</a><a class="nav-btn active" href="tools.html">⚙️ Strumenti</a><a class="nav-btn" href="fenice_diet_training_12w_all_ccapi.html#calendar">🗓️ Calendari</a><button id="btnInstall" class="nav-btn" style="display:none">⬇️ Installa</button><button id="btnInstallHelp" class="nav-btn" title="Come installo?">❓</button></nav></header>
+<header class="topbar"><div class="brand">Fenice</div><nav><a class="nav-btn" href="index.html">🏠 Home</a><a class="nav-btn" href="fenice_diet_training_12w_all_ccapi.html">📅 Piano</a><a class="nav-btn active" href="tools.html">⚙️ Strumenti</a><a class="nav-btn" href="fenice_diet_training_12w_all_ccapi.html#calendar">🗓️ Calendari</a><button id="btnInstall" class="nav-btn" style="display:none">⬇️ Installa</button><button id="btnInstallHelp" class="nav-btn" title="Come installo?">❓</button><button id="btnInstallAlways" class="nav-btn">⬇️ Installa</button></nav></header>
 <div class="container">
   <div class="card"><h2>Timer</h2>
     <div class="row">
@@ -100,6 +121,114 @@ if(bi){
   const hb = document.getElementById('btnInstallHelp');
   if(hb && isStandalone()){ hb.style.display='none'; }
   if(hb){ hb.addEventListener('click', showHelp); }
+})();
+</script>
+
+
+<div class="modal" id="installModal"><div class="box">
+  <span class="close" id="installClose">✖</span>
+  <h3>Installa "Fenice" come app</h3>
+  <div id="installSteps" class="small"></div>
+  <div style="text-align:right;margin-top:10px"><button class="btn" id="installOk">Ok</button></div>
+</div></div>
+
+
+<script>
+(function(){
+  let deferredPromptAlways=null;
+  window.addEventListener('beforeinstallprompt',(e)=>{
+    e.preventDefault();
+    deferredPromptAlways = e;
+  });
+
+  function isiOS(){ return /iphone|ipad|ipod/i.test(navigator.userAgent); }
+  function isStandalone(){ return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone; }
+
+  function openModal(stepsHtml){
+    const m = document.getElementById('installModal'); const s = document.getElementById('installSteps');
+    if(!m || !s) return;
+    s.innerHTML = stepsHtml;
+    m.style.display='flex';
+  }
+  function closeModal(){
+    const m = document.getElementById('installModal');
+    if(m) m.style.display='none';
+  }
+
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const btn = document.getElementById('btnInstallAlways');
+    const close = document.getElementById('installClose');
+    const ok = document.getElementById('installOk');
+    if(close) close.addEventListener('click', closeModal);
+    if(ok) ok.addEventListener('click', closeModal);
+    if(btn){
+      btn.addEventListener('click', async ()=>{
+        if(isStandalone()){ alert('Fenice è già installata.'); return; }
+        if(deferredPromptAlways){
+          deferredPromptAlways.prompt();
+          const res = await deferredPromptAlways.userChoice;
+          deferredPromptAlways = null;
+          if(res && res.outcome==='accepted'){ return; }
+        }
+        // Fallback instructions
+        if(isiOS()){
+          openModal("<ol><li>Apri in Safari.</li><li>Tocca <b>Condividi</b> (icona ⬆️)</li><li>Seleziona <b>Aggiungi a Home</b>.</li></ol>");
+        }else{
+          openModal("<ol><li>Apri il menu del browser (⋮).</li><li>Tocca <b>Aggiungi a schermata Home</b>.</li><li>Conferma e apri l’app.</li></ol>");
+        }
+      });
+    }
+    window.addEventListener('appinstalled', ()=>{ alert('Installazione completata!'); });
+  });
+})();
+</script>
+
+
+<div class="toast-update" id="toastUpdate">
+  <div class="row">
+    <div class="msg">È disponibile un aggiornamento di <b>Fenice</b>.</div>
+    <div class="actions">
+      <button class="btn" id="btnUpdNow">Aggiorna ora</button>
+      <button class="btn" id="btnUpdLater">Più tardi</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+(function(){
+  // SW update detection: show toast when a new worker is waiting
+  let newWorker = null;
+  function showToast(){ const t=document.getElementById('toastUpdate'); if(t) t.style.display='block'; }
+  function hideToast(){ const t=document.getElementById('toastUpdate'); if(t) t.style.display='none'; }
+  function refreshPage(){ if(newWorker){ newWorker.postMessage({type:'SKIP_WAITING'}); } setTimeout(()=>location.reload(true), 300); }
+
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.getRegistration().then(reg=>{
+      if(!reg) return;
+      // Already waiting?
+      if(reg.waiting){ newWorker = reg.waiting; showToast(); }
+      reg.addEventListener('updatefound', ()=>{
+        const installing = reg.installing;
+        if(!installing) return;
+        installing.addEventListener('statechange', ()=>{
+          if(installing.state === 'installed' && navigator.serviceWorker.controller){
+            newWorker = reg.waiting;
+            showToast();
+          }
+        });
+      });
+    });
+    // Listen for controllerchange (after skipWaiting)
+    navigator.serviceWorker.addEventListener('controllerchange', ()=>{ hideToast(); });
+  }
+
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const now=document.getElementById('btnUpdNow');
+    const later=document.getElementById('btnUpdLater');
+    if(now) now.addEventListener('click', refreshPage);
+    if(later) later.addEventListener('click', hideToast);
+  });
 })();
 </script>
 

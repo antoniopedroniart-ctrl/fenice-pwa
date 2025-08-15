@@ -1,5 +1,5 @@
 
-const CACHE = 'fenice-v5';
+const CACHE = 'fenice-v7';
 const ASSETS = [
   './index.html',
   './fenice_diet_training_12w_all_ccapi.html',
@@ -46,4 +46,11 @@ self.addEventListener('fetch', (e) => {
       return r;
     }).catch(() => caches.match('./index.html')))
   );
+});
+
+
+self.addEventListener('message', (event) => {
+  if(event.data && event.data.type === 'SKIP_WAITING'){
+    self.skipWaiting();
+  }
 });
