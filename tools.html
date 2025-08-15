@@ -1,14 +1,1 @@
-<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Fenice • Strumenti</title>
-<style>:root{--bg:#0f1320;--panel:#12182a;--ink:#e9eef7;--line:#2c3550}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,Segoe UI,Roboto,Ubuntu,Arial,sans-serif}
-.container{max-width:720px;margin:0 auto;padding:16px}.card{background:#12182a;border:1px solid var(--line);border-radius:16px;padding:16px;margin:10px 0;text-align:center}
-button{padding:10px 12px;border:1px solid #2c3550;background:#1a2033;color:#e9eef7;border-radius:10px;margin:6px;cursor:pointer}#t{font-size:42px;margin:12px}</style>
-<div class="container">
-<h1>⚙️ Strumenti</h1>
-<section class="card"><h2>Timer</h2><div>
-<button onclick="start(50*60)">Studio 50'</button><button onclick="start(10*60)">Pausa 10'</button><button onclick="start(90*60)">Allenamento 90'</button><button onclick="start(5*60)">Rest 5'</button></div>
-<div id="t">00:00</div><audio id="ding"><source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABAAZGF0YQAAAAA=" type="audio/wav"></audio></section>
-<section class="card"><h2>Forza aggiornamento cache PWA</h2><button onclick="refreshApp()">Svuota cache e ricarica</button></section></div>
-<script>let intv=0,remain=0;function fmt(s){const m=String(Math.floor(s/60)).padStart(2,'0');const ss=String(s%60).padStart(2,'0');return m+':'+ss}
-function tick(){remain--;document.getElementById('t').textContent=fmt(remain);if(remain<=0){clearInterval(intv);document.getElementById('ding').play();}}
-function start(sec){clearInterval(intv);remain=sec;document.getElementById('t').textContent=fmt(remain);intv=setInterval(tick,1000)}
-function refreshApp(){if('serviceWorker' in navigator){caches.keys().then(keys=>Promise.all(keys.map(k=>caches.delete(k)))).finally(()=>location.reload(true));}else{location.reload(true);}}</script>
+<!doctype html><title>Tools</title>
