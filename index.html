@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Fenice • Home</title>
+<title>Fenice • Home (patched)</title>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#0b0e19">
 <link rel="icon" sizes="192x192" href="icon-192.png">
@@ -34,25 +34,24 @@ h1{font-size:18px;margin:0}.container{max-width:960px;margin:0 auto;padding:16px
     <section class="card">
       <h2>📅 Piano 12 settimane (ALL‑IN‑ONE)</h2>
       <p>Dieta + Allenamento + Galleria esercizi con <b>foto CC</b> e video.</p>
-      <a class="btn" href="fenice_diet_training_12w_all_ccapi.html">Apri il piano</a>
-      <p class="small">Se non si apre, verifica che il file sia caricato nella stessa cartella.</p>
+      <a class="btn" id="openPlan" href="./fenice_diet_training_12w_all_ccapi.html">Apri il piano</a>
+      <p class="small" id="planFallback" style="display:none"></p>
     </section>
     <section class="card">
       <h2>🗓️ Calendari (.ics)</h2>
       <p>Importa o <b>sottoscrivi</b> i calendari per averli sempre aggiornati.</p>
       <ul class="small">
-        <li><a href="Fenice_Work.ics" download>Fenice_Work.ics</a></li>
-        <li><a href="Fenice_Training.ics" download>Fenice_Training.ics</a></li>
-        <li><a href="Fenice_Study.ics" download>Fenice_Study.ics</a></li>
-        <li><a href="Fenice_Classes.ics" download>Fenice_Classes.ics</a></li>
-        <li><a href="Fenice_Internship.ics" download>Fenice_Internship.ics</a></li>
+        <li><a href="./Fenice_Work.ics" download>Fenice_Work.ics</a></li>
+        <li><a href="./Fenice_Training.ics" download>Fenice_Training.ics</a></li>
+        <li><a href="./Fenice_Study.ics" download>Fenice_Study.ics</a></li>
+        <li><a href="./Fenice_Classes.ics" download>Fenice_Classes.ics</a></li>
+        <li><a href="./Fenice_Internship.ics" download>Fenice_Internship.ics</a></li>
       </ul>
     </section>
     <section class="card">
       <h2>⚙️ Strumenti</h2>
-      <a class="btn" href="#!" onclick="openTimer()">Timer Studio/Allenamento</a>
-      <a class="btn" href="#!" onclick="refreshApp()">Forza aggiornamento cache</a>
-      <p class="small">Timer Pomodoro 50/10 e 90' allenamento.</p>
+      <a class="btn" href="./tools.html">Apri strumenti</a>
+      <p class="small">Timer Pomodoro 50/10 e 90' allenamento + Forza aggiornamento cache.</p>
     </section>
   </div>
 </div>
@@ -61,12 +60,21 @@ h1{font-size:18px;margin:0}.container{max-width:960px;margin:0 auto;padding:16px
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('sw.js').then(reg=>{document.getElementById('swStatus').textContent='PWA ✓';}).catch(()=>document.getElementById('swStatus').textContent='PWA');
 }
-function refreshApp(){if('serviceWorker' in navigator){caches.keys().then(keys=>Promise.all(keys.map(k=>caches.delete(k)))).finally(()=>location.reload(true));}else{location.reload(true);}}
-function openTimer(){const w=window.open('','_blank');w.document.write(`<!doctype html><meta charset='utf-8'><title>Fenice • Timer</title>
-<style>body{font-family:system-ui,Segoe UI,Roboto,sans-serif;background:#0f1320;color:#e9eef7;display:flex;align-items:center;justify-content:center;height:100vh;margin:0}.card{background:#12182a;border:1px solid #2c3550;border-radius:16px;padding:20px;text-align:center;min-width:260px}button{padding:8px 12px;border:1px solid #2c3550;background:#1a2033;color:#e9eef7;border-radius:10px;margin:6px}#t{font-size:42px;margin:10px}</style>
-<div class='card'><h2>Timer</h2><div><button onclick='start(50*60)'>Studio 50'</button><button onclick='start(10*60)'>Pausa 10'</button><button onclick='start(90*60)'>Allenamento 90'</button><button onclick='start(5*60)'>Rest 5'</button></div><div id='t'>00:00</div><audio id='ding'><source src='data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABAAZGF0YQAAAAA=' type='audio/wav'></audio><div><button onclick='stop()'>Stop</button></div></div>
-<script>let intv=0,remain=0;function fmt(s){const m=String(Math.floor(s/60)).padStart(2,'0');const ss=String(s%60).padStart(2,'0');return m+':'+ss}function tick(){remain--;document.getElementById('t').textContent=fmt(remain);if(remain<=0){clearInterval(intv);document.getElementById('ding').play();}}function start(sec){clearInterval(intv);remain=sec;document.getElementById('t').textContent=fmt(remain);intv=setInterval(tick,1000)}function stop(){clearInterval(intv);}</script>`);w.document.close();}
 if(!navigator.onLine){document.getElementById('offlineMsg').style.display='block';}
+// Fallback: costruisce link assoluto se quello relativo non dovesse funzionare in alcuni ambienti
+(function(){
+  const a=document.getElementById('openPlan');
+  const abs=new URL('./fenice_diet_training_12w_all_ccapi.html', location.href).href;
+  a.href=abs;
+  // Mostra il link assoluto se differisce
+  try{
+    if(abs!== './fenice_diet_training_12w_all_ccapi.html'){
+      const p=document.getElementById('planFallback');
+      p.style.display='block';
+      p.innerHTML='Se il pulsante non apre, copia/incolla questo link: <br><span class="small">'+abs+'</span>';
+    }
+  }catch(e){}
+})();
 </script>
 </body>
 </html>
