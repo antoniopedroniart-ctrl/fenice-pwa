@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="it"><head>
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
 <link rel="manifest" href="./manifest.json">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Fenice • Home</title>
@@ -31,7 +32,7 @@ background:#0b0e19;border-bottom:1px solid var(--line);padding:10px 14px}
 .badge-muscle{font-size:12px;border:1px solid var(--line);border-radius:8px;padding:2px 6px;margin-left:8px;opacity:.9}
 hr.sep{border:none;border-top:1px dashed #2c3550;margin:10px 0}</style>
 </head><body>
-<header class="topbar"><div class="brand">Fenice</div><nav><a class="nav-btn active" href="index.html">🏠 Home</a><a class="nav-btn" href="fenice_diet_training_12w_all_ccapi.html">📅 Piano</a><a class="nav-btn" href="tools.html">⚙️ Strumenti</a><a class="nav-btn" href="fenice_diet_training_12w_all_ccapi.html#calendar">🗓️ Calendari</a></nav></header>
+<header class="topbar"><div class="brand">Fenice</div><nav><a class="nav-btn active" href="index.html">🏠 Home</a><a class="nav-btn" href="fenice_diet_training_12w_all_ccapi.html">📅 Piano</a><a class="nav-btn" href="tools.html">⚙️ Strumenti</a><a class="nav-btn" href="fenice_diet_training_12w_all_ccapi.html#calendar">🗓️ Calendari</a><button id="btnInstall" class="nav-btn" style="display:none">⬇️ Installa</button></nav></header>
 <div class="container">
   <div class="card">
     <h2>📅 Piano 12 settimane (ALL-IN-ONE)</h2>
@@ -81,4 +82,61 @@ if('serviceWorker' in navigator){
 }
 </script>
 
+
+<script>
+// Install prompt handler
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',(e)=>{
+  e.preventDefault();
+  deferredPrompt=e;
+  const b=document.getElementById('btnInstall');
+  if(b){ b.style.display='inline-block'; }
+});
+const bi=document.getElementById('btnInstall');
+if(bi){
+  bi.addEventListener('click', async ()=>{
+    if(!deferredPrompt){ alert('Installazione non disponibile su questo dispositivo/browser.'); return; }
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if(outcome!=='accepted'){ console.log('PWA install declined'); }
+    deferredPrompt=null;
+    bi.style.display='none';
+  });
+}
+</script>
+
 </body></html>
+
+<script>
+(function(){
+  const schedule = {1:null,2:'u1',3:'l1',4:'u2',5:null,6:'l2',0:null};
+  const ids = {u1:['b-u1','t-u1'], l1:['b-l1','t-l1'], u2:['b-u2','t-u2'], l2:['b-l2','t-l2']};
+  function dn(i){return ['Domenica','Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato'][i]}
+  function fmt(d){const z=n=>String(n).padStart(2,'0'); return z(d.getDate())+'/'+z(d.getMonth()+1)}
+  function labelForKey(k, baseDate){
+    // Find weekday index that maps to key (this week's plan)
+    const wd = Object.keys(schedule).find(x=>schedule[x]===k); if(wd==null) return '—';
+    // compute date of this week's wd relative to today
+    const today = new Date(baseDate); const diff = ( (parseInt(wd,10) - today.getDay()) + 7 ) % 7;
+    const dt = new Date(today); dt.setDate(today.getDate()+diff);
+    return dn(parseInt(wd,10)) + ' ' + fmt(dt);
+  }
+  function apply(){
+    const now = new Date();
+    const today = now.getDay(), tomorrow = (today+1)%7;
+    const tk = schedule[today], nk = schedule[tomorrow];
+    function setBadge(key, dot, text){
+      const a = ids[key]||[]; const b=document.getElementById(a[0]), t=document.getElementById(a[1]);
+      if(b&&t){ b.textContent = dot; t.textContent = text; }
+    }
+    // default labels with weekday+date
+    Object.keys(ids).forEach(k=>{
+      const t = document.getElementById(ids[k][1]);
+      if(t){ t.textContent = labelForKey(k, now); }
+    });
+    if(tk) setBadge(tk,'🟢','Oggi'); 
+    if(nk && nk!==tk) setBadge(nk,'🟡','Domani');
+  }
+  if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', apply); } else { apply(); }
+})();
+</script>

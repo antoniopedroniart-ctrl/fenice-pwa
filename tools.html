@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="it"><head>
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
 <link rel="manifest" href="./manifest.json">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Fenice • Strumenti</title>
@@ -31,7 +32,7 @@ background:#0b0e19;border-bottom:1px solid var(--line);padding:10px 14px}
 .badge-muscle{font-size:12px;border:1px solid var(--line);border-radius:8px;padding:2px 6px;margin-left:8px;opacity:.9}
 hr.sep{border:none;border-top:1px dashed #2c3550;margin:10px 0} #t{font-size:42px;margin:12px}button.btn{cursor:pointer}</style>
 </head><body>
-<header class="topbar"><div class="brand">Fenice</div><nav><a class="nav-btn" href="index.html">🏠 Home</a><a class="nav-btn" href="fenice_diet_training_12w_all_ccapi.html">📅 Piano</a><a class="nav-btn active" href="tools.html">⚙️ Strumenti</a><a class="nav-btn" href="fenice_diet_training_12w_all_ccapi.html#calendar">🗓️ Calendari</a></nav></header>
+<header class="topbar"><div class="brand">Fenice</div><nav><a class="nav-btn" href="index.html">🏠 Home</a><a class="nav-btn" href="fenice_diet_training_12w_all_ccapi.html">📅 Piano</a><a class="nav-btn active" href="tools.html">⚙️ Strumenti</a><a class="nav-btn" href="fenice_diet_training_12w_all_ccapi.html#calendar">🗓️ Calendari</a><button id="btnInstall" class="nav-btn" style="display:none">⬇️ Installa</button></nav></header>
 <div class="container">
   <div class="card"><h2>Timer</h2>
     <div class="row">
@@ -55,6 +56,29 @@ if('serviceWorker' in navigator){
   window.addEventListener('load', function(){
     navigator.serviceWorker.register('./service-worker.js')
       .catch(function(e){ console.warn('SW reg failed:', e); });
+  });
+}
+</script>
+
+
+<script>
+// Install prompt handler
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',(e)=>{
+  e.preventDefault();
+  deferredPrompt=e;
+  const b=document.getElementById('btnInstall');
+  if(b){ b.style.display='inline-block'; }
+});
+const bi=document.getElementById('btnInstall');
+if(bi){
+  bi.addEventListener('click', async ()=>{
+    if(!deferredPrompt){ alert('Installazione non disponibile su questo dispositivo/browser.'); return; }
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if(outcome!=='accepted'){ console.log('PWA install declined'); }
+    deferredPrompt=null;
+    bi.style.display='none';
   });
 }
 </script>
