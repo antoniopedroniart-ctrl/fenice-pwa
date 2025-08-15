@@ -1,4 +1,4 @@
-const CACHE = 'fenice-v5';
+const CACHE = 'fenice-v6';
 const ASSETS = [
   './',
   './index.html',
