@@ -2,9 +2,15 @@ const CACHE = 'fenice-v5';
 const ASSETS = [
   './',
   './index.html',
+  './fenice_diet_training_12w.html',
   './manifest.webmanifest',
   './icon-192.png',
-  './icon-512.png'
+  './icon-512.png',
+  './Fenice_Work.ics',
+  './Fenice_Training.ics',
+  './Fenice_Study.ics',
+  './Fenice_Classes.ics',
+  './Fenice_Internship.ics'
 ];
 
 self.addEventListener('install', e=>{
@@ -21,13 +27,15 @@ self.addEventListener('activate', e=>{
 });
 
 self.addEventListener('fetch', e=>{
-  e.respondWith(
-    caches.match(e.request).then(res=> res || fetch(e.request).then(resp=>{
-      try {
-        const copy = resp.clone();
-        caches.open(CACHE).then(c=>c.put(e.request, copy)).catch(()=>{});
-      } catch(e){}
-      return resp;
-    }).catch(()=>res))
-  );
+  e.respondWith((async()=>{
+    const cached = await caches.match(e.request);
+    try{
+      const fresh = await fetch(e.request);
+      const copy = fresh.clone();
+      caches.open(CACHE).then(c=>c.put(e.request, copy)).catch(()=>{});
+      return fresh;
+    }catch(err){
+      return cached || Response.error();
+    }
+  })());
 });
